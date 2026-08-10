@@ -13,7 +13,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務 V11</title>
+<title>寶寶托嬰準備任務 V12</title>
 <style>
 :root{
  --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
@@ -826,6 +826,79 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   .comboHit.high .comboNumber{font-size:80px !important}
 }
 
+
+/* ===== V12：Combo 縮小＋爆炸外框修正 ===== */
+.comboDock{
+  right: 8px !important;
+  top: calc(env(safe-area-inset-top) + 94px) !important;
+}
+.comboHit{
+  min-width: 146px !important;
+  padding: 12px 12px 11px !important;
+  animation: v12ComicCombo .76s cubic-bezier(.16,.94,.24,1.08) forwards !important;
+}
+
+/* 外框改成雙層完整爆炸圖形，避免邊線缺角 */
+.comboHit::before{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  background:#2d1d11;
+  clip-path:polygon(50% 0%, 60% 15%, 79% 5%, 75% 24%, 97% 26%, 82% 39%, 100% 50%, 82% 61%, 97% 74%, 75% 76%, 79% 95%, 60% 85%, 50% 100%, 40% 85%, 21% 95%, 25% 76%, 3% 74%, 18% 61%, 0% 50%, 18% 39%, 3% 26%, 25% 24%, 21% 5%, 40% 15%);
+  box-shadow:5px 5px 0 rgba(45,29,17,.22);
+  z-index:-3;
+  transform:rotate(-7deg);
+}
+.comboHit::after{
+  content:"";
+  position:absolute;
+  inset:2px;
+  background:linear-gradient(145deg,#ffe66f,#ffb32c);
+  clip-path:polygon(50% 0%, 60% 15%, 79% 5%, 75% 24%, 97% 26%, 82% 39%, 100% 50%, 82% 61%, 97% 74%, 75% 76%, 79% 95%, 60% 85%, 50% 100%, 40% 85%, 21% 95%, 25% 76%, 3% 74%, 18% 61%, 0% 50%, 18% 39%, 3% 26%, 25% 24%, 21% 5%, 40% 15%);
+  z-index:-2;
+  transform:rotate(-7deg);
+}
+.comboWord{
+  font-size:14px !important;
+  margin-bottom:2px !important;
+}
+.comboTimes{
+  font-size:24px !important;
+  transform:translateY(-3px) !important;
+}
+.comboNumber{
+  font-size:72px !important;
+  -webkit-text-stroke:4px #2d1d11 !important;
+  text-shadow:4px 4px 0 #d15425, 7px 7px 0 rgba(45,29,17,.16) !important;
+}
+.comboHit.high .comboNumber{
+  font-size:78px !important;
+  text-shadow:4px 4px 0 #c3311f, 7px 7px 0 rgba(45,29,17,.2) !important;
+}
+@keyframes v12ComicCombo{
+  0%{opacity:0;transform:translateY(10px) scale(.46) rotate(-8deg)}
+  20%{opacity:1;transform:translateY(0) scale(1.10) rotate(1.5deg)}
+  50%{opacity:1;transform:translateY(-5px) scale(1) rotate(-1deg)}
+  100%{opacity:0;transform:translateY(-24px) scale(.96) rotate(0)}
+}
+@media(max-width:420px){
+  .comboDock{
+    right:2px !important;
+    top:calc(env(safe-area-inset-top) + 90px) !important;
+  }
+  .comboHit{
+    min-width:130px !important;
+    padding:10px 10px 9px !important;
+  }
+  .comboWord{font-size:12px !important}
+  .comboTimes{font-size:20px !important}
+  .comboNumber{
+    font-size:58px !important;
+    -webkit-text-stroke:3px #2d1d11 !important;
+  }
+  .comboHit.high .comboNumber{font-size:64px !important}
+}
+
 </style>
 </head>
 <body>
@@ -841,7 +914,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   <div class="streak">🔥 <span id="streakText">今天也來完成任務！</span></div>
 
   <div class="heroControls">
-    <div class="versionTag">V11</div>
+    <div class="versionTag">V12</div>
     <div class="themeToggle" id="themeToggle" role="group" aria-label="主題切換">
       <button type="button" class="themeBtn" data-theme="default">標準</button>
       <button type="button" class="themeBtn active" data-theme="cute">可愛插畫</button>
@@ -1136,7 +1209,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
    navigator.serviceWorker.getRegistrations()
      .then(regs=>Promise.all(regs.map(r=>r.unregister())))
-     .then(()=>navigator.serviceWorker.register("./sw.js?v=11"))
+     .then(()=>navigator.serviceWorker.register("./sw.js?v=12"))
      .catch(()=>{});
  }
 
