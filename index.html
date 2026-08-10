@@ -94,12 +94,93 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
 }
 .confetti{pointer-events:none;position:fixed;inset:0;overflow:hidden;z-index:99}.piece{position:absolute;top:-20px;width:10px;height:14px;border-radius:3px;animation:fall var(--dur) linear forwards}
 @keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(720deg);opacity:.9}}
+
+/* ===== 滑動後縮成迷你任務列 ===== */
+.miniQuest{
+  position:fixed;
+  left:50%;
+  top:calc(env(safe-area-inset-top) + 8px);
+  transform:translate(-50%,-18px) scale(.98);
+  width:min(calc(100% - 20px),696px);
+  z-index:80;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px 12px;
+  border-radius:18px;
+  background:rgba(255,252,249,.92);
+  border:1px solid rgba(235,222,214,.95);
+  box-shadow:0 10px 30px rgba(75,55,45,.12);
+  -webkit-backdrop-filter:blur(18px);
+  backdrop-filter:blur(18px);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .24s ease, transform .28s cubic-bezier(.2,.8,.2,1), background .25s ease;
+}
+.miniQuest.show{
+  opacity:1;
+  transform:translate(-50%,0) scale(1);
+  pointer-events:auto;
+}
+.miniQuest.complete{
+  background:rgba(239,249,243,.95);
+  border-color:#d3e7dc;
+}
+.miniIcon{
+  width:34px;height:34px;border-radius:11px;flex:none;
+  display:grid;place-items:center;
+  background:#fff2e9;font-size:19px;
+}
+.miniQuest.complete .miniIcon{background:#e7f5ed}
+.miniBody{flex:1;min-width:0}
+.miniTop{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:8px;margin-bottom:5px
+}
+.miniTitle{
+  font-size:13px;font-weight:950;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis
+}
+.miniPct{
+  font-size:13px;font-weight:1000;color:#b86d5b;flex:none
+}
+.miniQuest.complete .miniPct{color:#547569}
+.miniTrack{
+  height:7px;background:#eee8e4;border-radius:999px;overflow:hidden
+}
+.miniFill{
+  width:0;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,#e99b84,#f2be8c,#a9d2bd);
+  transition:width .42s cubic-bezier(.2,.8,.2,1)
+}
+.miniMessage{
+  margin-top:4px;font-size:10.5px;font-weight:800;color:#8c7f77;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+@media (max-width:420px){
+  .miniQuest{width:calc(100% - 16px);top:calc(env(safe-area-inset-top) + 6px);padding:9px 10px}
+  .miniMessage{font-size:10px}
+}
+
 </style>
 </head>
 <body>
+
+<div class="miniQuest" id="miniQuest" aria-hidden="true">
+  <div class="miniIcon" id="miniIcon">🐰</div>
+  <div class="miniBody">
+    <div class="miniTop">
+      <div class="miniTitle" id="miniTitle">寶寶托嬰準備任務</div>
+      <div class="miniPct" id="miniPct">0%</div>
+    </div>
+    <div class="miniTrack"><div class="miniFill" id="miniFill"></div></div>
+    <div class="miniMessage" id="miniMessage">準備開始，今天也要順順利利！</div>
+  </div>
+</div>
+
 <div class="confetti" id="confetti"></div>
 <main>
- <section class="hero">
+ <section class="hero" id="hero">
   <div class="kicker">DAYCARE QUEST</div>
   <h1>寶寶托嬰準備任務 🐰</h1>
   <div class="date" id="dateText"></div>
@@ -160,7 +241,11 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
 
  const fill=document.getElementById("fill"), pct=document.getElementById("pct"),
        count=document.getElementById("count"), milestone=document.getElementById("milestone"),
-       achievement=document.getElementById("achievement"), confetti=document.getElementById("confetti");
+       achievement=document.getElementById("achievement"), confetti=document.getElementById("confetti"),
+       hero=document.getElementById("hero"), miniQuest=document.getElementById("miniQuest"),
+       miniPct=document.getElementById("miniPct"), miniFill=document.getElementById("miniFill"),
+       miniMessage=document.getElementById("miniMessage"), miniIcon=document.getElementById("miniIcon"),
+       miniTitle=document.getElementById("miniTitle");
 
  function save(){
   try{const o={};boxes.forEach(b=>o[b.dataset.id]=b.checked);localStorage.setItem(key,JSON.stringify(o))}catch(e){}
@@ -192,6 +277,15 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
   fill.style.width=p+"%";pct.textContent=p+"%";count.textContent=`${done} / ${total} 已完成`;
   milestone.innerHTML=`<span>${m[0]}</span><span>${m[1]}</span>`;
   milestone.classList.remove("pop");void milestone.offsetWidth;milestone.classList.add("pop");
+
+  // 同步上方迷你任務列
+  miniPct.textContent=p+"%";
+  miniFill.style.width=p+"%";
+  miniMessage.textContent=m[1];
+  miniQuest.classList.toggle("complete",done===total);
+  miniIcon.textContent=done===total ? "🏆" : "🐰";
+  miniTitle.textContent=done===total ? "今日任務完成！" : "寶寶托嬰準備任務";
+
   achievement.classList.toggle("show",done===total);
   if(done===total&&!celebrated){celebrated=true;burst();if(navigator.vibrate)navigator.vibrate([40,40,70])}
   if(done<total)celebrated=false;
@@ -210,6 +304,21 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
    navigator.serviceWorker.register("./sw.js").catch(()=>{});
  }
+
+ // 大卡片滑出畫面後，自動顯示迷你任務列
+ if("IntersectionObserver" in window){
+   const observer=new IntersectionObserver(entries=>{
+     const visible=entries[0].isIntersecting;
+     miniQuest.classList.toggle("show",!visible);
+     miniQuest.setAttribute("aria-hidden",visible ? "true" : "false");
+   },{threshold:.18});
+   observer.observe(hero);
+ }else{
+   window.addEventListener("scroll",()=>{
+     miniQuest.classList.toggle("show",window.scrollY>220);
+   },{passive:true});
+ }
+
  update();
 })();
 </script>

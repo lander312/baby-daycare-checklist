@@ -1,5 +1,5 @@
 
-const CACHE = "daycare-pwa-v1";
+const CACHE = "daycare-pwa-v2-sticky";
 const ASSETS = [
   "./",
   "./index.html",
