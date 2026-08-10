@@ -1,4 +1,4 @@
-const CACHE = "daycare-pwa-v7-combo-badges";
+const CACHE = "daycare-pwa-v8-combo-hit";
 const ASSETS = [
   "./",
   "./index.html",

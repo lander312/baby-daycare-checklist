@@ -10,7 +10,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務 V7</title>
+<title>寶寶托嬰準備任務 V8</title>
 <style>
 :root{
  --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
@@ -258,32 +258,119 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
 }
 
 /* effects */
-.fxLayer{position:fixed;inset:0;pointer-events:none;z-index:120;overflow:hidden}
+.fxLayer{
+ position:fixed;inset:0;pointer-events:none;z-index:120;overflow:hidden
+}
+
+/* 第一段：完成 +1 */
 .floatText{
- position:fixed;left:0;top:0;padding:7px 10px;border-radius:999px;
- background:rgba(255,255,255,.94);border:1px solid rgba(239,223,214,.95);
- color:#a15d4c;font-size:12px;font-weight:1000;box-shadow:0 8px 20px rgba(86,59,45,.10);
- animation:floatUp .95s ease-out forwards
+ position:fixed;
+ left:0;top:0;
+ min-width:84px;
+ text-align:center;
+ padding:8px 12px;
+ border-radius:999px;
+ background:rgba(255,255,255,.96);
+ border:1px solid rgba(239,223,214,.95);
+ color:#a15d4c;
+ font-size:14px;
+ font-weight:1000;
+ letter-spacing:.02em;
+ box-shadow:0 10px 24px rgba(86,59,45,.13);
+ animation:hitComplete .62s cubic-bezier(.2,.9,.25,1.18) forwards;
+ transform-origin:center;
 }
-@keyframes floatUp{
- 0%{opacity:0;transform:translate(-50%,0) scale(.85)}
- 20%{opacity:1}
- 100%{opacity:0;transform:translate(-50%,-42px) scale(1.04)}
+.floatText .plus{
+ font-size:18px;
+ margin-left:3px;
+ color:#cb775f;
 }
-.comboFx{
- position:fixed;right:16px;top:calc(env(safe-area-inset-top) + 92px);
- padding:10px 14px;border-radius:16px;background:linear-gradient(135deg,#fff7df,#ffe8b3);
- border:1px solid #f0d98f;color:#8a6315;box-shadow:0 12px 24px rgba(165,125,27,.16);
- font-size:14px;font-weight:1000;opacity:0;transform:translateY(4px) scale(.92);
- z-index:121
+@keyframes hitComplete{
+ 0%{opacity:0;transform:translate(-50%,8px) scale(.65)}
+ 18%{opacity:1;transform:translate(-50%,0) scale(1.14)}
+ 68%{opacity:1;transform:translate(-50%,-12px) scale(1)}
+ 100%{opacity:0;transform:translate(-50%,-28px) scale(.96)}
 }
-.comboFx.show{animation:comboPop .92s ease forwards}
-.comboFx small{display:block;font-size:10px;opacity:.8;letter-spacing:.08em}
-@keyframes comboPop{
- 0%{opacity:0;transform:translateY(8px) scale(.9)}
- 18%{opacity:1;transform:translateY(0) scale(1.08)}
- 100%{opacity:0;transform:translateY(-20px) scale(1)}
+
+/* 第二段：同位置 COMBO */
+.comboHit{
+ position:fixed;
+ left:0;top:0;
+ min-width:128px;
+ text-align:center;
+ padding:7px 13px 9px;
+ border-radius:18px;
+ background:linear-gradient(145deg,rgba(255,251,234,.98),rgba(255,236,185,.97));
+ border:1px solid #efd68b;
+ box-shadow:
+   0 13px 28px rgba(164,118,23,.17),
+   inset 0 1px 0 rgba(255,255,255,.9);
+ color:#8a6315;
+ opacity:0;
+ transform-origin:center;
+ animation:comboHitPop .78s cubic-bezier(.16,.94,.24,1.18) forwards;
 }
+.comboWord{
+ display:block;
+ font-size:11px;
+ font-weight:1000;
+ letter-spacing:.16em;
+ line-height:1;
+ opacity:.8;
+ margin-bottom:2px;
+}
+.comboCount{
+ display:flex;
+ align-items:baseline;
+ justify-content:center;
+ gap:1px;
+ line-height:.88;
+}
+.comboTimes{
+ font-size:20px;
+ font-weight:1000;
+ color:#b78018;
+ transform:translateY(-2px);
+}
+.comboNumber{
+ font-size:38px;
+ font-weight:1000;
+ letter-spacing:-.04em;
+ color:#78520b;
+ text-shadow:0 2px 0 rgba(255,255,255,.65);
+}
+.comboHit.high .comboNumber{
+ font-size:42px;
+ color:#9a4e2c;
+}
+.comboHit.high{
+ background:linear-gradient(145deg,#fff6dc,#ffdca0);
+ border-color:#e9be56;
+}
+@keyframes comboHitPop{
+ 0%{opacity:0;transform:translate(-50%,5px) scale(.55) rotate(-3deg)}
+ 22%{opacity:1;transform:translate(-50%,-1px) scale(1.18) rotate(1deg)}
+ 55%{opacity:1;transform:translate(-50%,-9px) scale(1)}
+ 100%{opacity:0;transform:translate(-50%,-30px) scale(.96)}
+}
+
+/* 卡片勾選瞬間增加一個小光圈 */
+.row.hitFlash::before{
+ content:"";
+ position:absolute;
+ inset:5px;
+ border-radius:15px;
+ border:2px solid rgba(232,183,96,.65);
+ z-index:3;
+ pointer-events:none;
+ animation:rowFlash .55s ease forwards;
+}
+@keyframes rowFlash{
+ 0%{opacity:0;transform:scale(.96)}
+ 30%{opacity:1}
+ 100%{opacity:0;transform:scale(1.025)}
+}
+
 .confetti{pointer-events:none;position:fixed;inset:0;overflow:hidden;z-index:99}
 .piece{position:absolute;top:-20px;width:10px;height:14px;border-radius:3px;animation:fall var(--dur) linear forwards}
 @keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(720deg);opacity:.9}}
@@ -306,7 +393,6 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
 <body>
 <div class="confetti" id="confetti"></div>
 <div class="fxLayer" id="fxLayer"></div>
-<div class="comboFx" id="comboFx"></div>
 
 <main>
  <section class="hero" id="hero">
@@ -316,7 +402,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   <div class="streak">🔥 <span id="streakText">今天也來完成任務！</span></div>
 
   <div class="heroControls">
-    <div class="versionTag">V7</div>
+    <div class="versionTag">V8</div>
     <div class="themeToggle" id="themeToggle" role="group" aria-label="主題切換">
       <button type="button" class="themeBtn" data-theme="default">標準</button>
       <button type="button" class="themeBtn active" data-theme="cute">可愛插畫</button>
@@ -466,7 +552,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
        miniFill=document.getElementById("miniFill"), miniMessage=document.getElementById("miniMessage"),
        miniIcon=document.getElementById("miniIcon"), miniTitle=document.getElementById("miniTitle"),
        badgeToast=document.getElementById("badgeToast"), badgeNodes=[...document.querySelectorAll(".milestoneBadge")],
-       fxLayer=document.getElementById("fxLayer"), comboFx=document.getElementById("comboFx");
+       fxLayer=document.getElementById("fxLayer");
 
  function save(){
   try{const o={}; boxes.forEach(b=>o[b.dataset.id]=b.checked); localStorage.setItem(key, JSON.stringify(o));}catch(e){}
@@ -498,26 +584,42 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   }
   setTimeout(()=>confetti.innerHTML="",4300);
  }
- function spawnFloat(el, text){
+ function effectPoint(el){
   const r=el.getBoundingClientRect();
+  // 靠卡片右半部，但避開最右側數量標籤
+  return {
+    x: Math.min(window.innerWidth - 72, Math.max(86, r.left + r.width * 0.68)),
+    y: Math.max(92, r.top + r.height * 0.45)
+  };
+ }
+ function spawnFloat(el){
+  const pt=effectPoint(el);
   const n=document.createElement("div");
   n.className="floatText";
-  n.textContent=text;
-  n.style.left=(r.left + r.width*0.62) + "px";
-  n.style.top=(r.top + 8) + "px";
+  n.innerHTML='完成 <span class="plus">+1</span>';
+  n.style.left=pt.x+"px";
+  n.style.top=pt.y+"px";
   fxLayer.appendChild(n);
-  setTimeout(()=>n.remove(),980);
+  setTimeout(()=>n.remove(),700);
  }
- function showCombo(count){
+ function showComboAt(el, count){
   if(count < 2) return;
-  comboFx.innerHTML = `COMBO x${count}<small>連續完成</small>`;
-  comboFx.classList.remove("show"); void comboFx.offsetWidth; comboFx.classList.add("show");
+  const pt=effectPoint(el);
+  const n=document.createElement("div");
+  n.className="comboHit" + (count >= 5 ? " high" : "");
+  n.innerHTML=
+    '<span class="comboWord">COMBO</span>'+
+    '<span class="comboCount"><span class="comboTimes">×</span><span class="comboNumber">'+count+'</span></span>';
+  n.style.left=pt.x+"px";
+  n.style.top=pt.y+"px";
+  fxLayer.appendChild(n);
+  setTimeout(()=>n.remove(),850);
  }
  function bumpCombo(){
   comboCount += 1;
   clearTimeout(comboTimer);
   comboTimer = setTimeout(()=>{ comboCount = 0; }, 3200);
-  showCombo(comboCount);
+  return comboCount;
  }
  function resetCombo(){
   comboCount = 0;
@@ -554,9 +656,19 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  boxes.forEach(b=>b.addEventListener("change", function(){
    const row=this.closest(".row");
    if(this.checked){
-     row.classList.remove("justdone"); void row.offsetWidth; row.classList.add("justdone");
-     spawnFloat(row, "完成 +1");
-     bumpCombo();
+     row.classList.remove("justdone","hitFlash");
+     void row.offsetWidth;
+     row.classList.add("justdone","hitFlash");
+
+     const currentCombo = bumpCombo();
+
+     // 先「完成 +1」，再於同一張卡片同一位置接著出 Combo
+     spawnFloat(row);
+     if(currentCombo >= 2){
+       setTimeout(()=>showComboAt(row, currentCombo), 360);
+     }
+
+     setTimeout(()=>row.classList.remove("hitFlash"),620);
    }else{
      resetCombo();
    }
@@ -565,13 +677,8 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
 
  document.getElementById("reset").onclick=()=>{boxes.forEach(b=>b.checked=false); celebrated=false; resetCombo(); update();};
  document.getElementById("all").onclick=()=>{
-   boxes.forEach((b, i)=>{
-     if(!b.checked){
-       b.checked=true;
-     }
-   });
-   comboCount = Math.max(comboCount, 2);
-   showCombo(comboCount);
+   boxes.forEach(b=>{ if(!b.checked) b.checked=true; });
+   resetCombo();
    update();
  };
 
