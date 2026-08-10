@@ -13,7 +13,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務 V13</title>
+<title>寶寶托嬰準備任務 V14</title>
 <style>
 :root{
  --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
@@ -975,6 +975,68 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   .comboHit.high .comboNumber{font-size:60px !important}
 }
 
+
+/* ===== V14：精簡主卡、版本右上、固定插畫版、重置今日 ===== */
+.hero{position:relative !important}
+.versionTag{
+  position:absolute !important;
+  top:18px !important;
+  right:20px !important;
+  left:auto !important;
+  z-index:10 !important;
+  min-width:auto !important;
+  padding:5px 9px !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.76) !important;
+  border:1px solid rgba(224,194,180,.75) !important;
+  box-shadow:0 5px 14px rgba(88,61,49,.06) !important;
+  font-size:11px !important;
+  line-height:1 !important;
+  font-weight:900 !important;
+  letter-spacing:.08em !important;
+  color:#b37663 !important;
+}
+.themeSwitch,.theme-switch,.modeSwitch,.mode-switch,
+.themeToggle,.theme-toggle,.themeBtns,.theme-buttons{
+  display:none !important;
+}
+.heroActionsV14{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  margin-top:10px;
+}
+.resetTodayBtn{
+  appearance:none;
+  border:1px solid #ead7ce;
+  background:rgba(255,255,255,.84);
+  color:#9c6f62;
+  min-height:38px;
+  padding:8px 13px;
+  border-radius:14px;
+  font-size:13px;
+  font-weight:900;
+  letter-spacing:.02em;
+  box-shadow:0 7px 18px rgba(92,66,54,.06);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.resetTodayBtn:active{
+  transform:scale(.96);
+  background:#fff5ef;
+}
+.resetTodayBtn .resetIcon{
+  font-size:17px;
+  line-height:1;
+}
+@media(max-width:420px){
+  .versionTag{top:15px !important;right:16px !important;font-size:10px !important;padding:5px 8px !important}
+  .resetTodayBtn{min-height:36px;padding:7px 11px;font-size:12px}
+}
+
 </style>
 </head>
 <body>
@@ -984,24 +1046,27 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
 
 <main>
  <section class="hero" id="hero">
+<div class="versionTag">V14</div>
   <div class="kicker">DAYCARE QUEST</div>
   <h1>寶寶托嬰準備任務</h1>
   <div class="date" id="dateText"></div>
   <div class="streak">🔥 <span id="streakText">今天也來完成任務！</span></div>
 
   <div class="heroControls">
-    <div class="versionTag">V13</div>
-    <div class="themeToggle" id="themeToggle" role="group" aria-label="主題切換">
-      <button type="button" class="themeBtn" data-theme="default">標準</button>
-      <button type="button" class="themeBtn active" data-theme="cute">可愛插畫</button>
-    </div>
-  </div>
+    
+    
 
   <div class="progressWrap">
    <div class="progressTop"><span>今日任務進度</span><span class="pct" id="pct">0%</span></div>
    <div class="track"><div class="fill" id="fill"></div></div>
   </div>
   <div class="milestone" id="milestone"><span>🌱</span><span>準備開始，今天也要順順利利！</span></div>
+<div class="heroActionsV14">
+  <button type="button" class="resetTodayBtn" id="resetTodayBtn" aria-label="重置今日勾選">
+    <span class="resetIcon">↻</span><span>重置今日</span>
+  </button>
+</div>
+
 
   <div class="heroArt" aria-hidden="true">
    <div class="artBlob artBlob1"></div>
@@ -1288,12 +1353,61 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
    navigator.serviceWorker.getRegistrations()
      .then(regs=>Promise.all(regs.map(r=>r.unregister())))
-     .then(()=>navigator.serviceWorker.register("./sw.js?v=13"))
+     .then(()=>navigator.serviceWorker.register("./sw.js?v=14"))
      .catch(()=>{});
  }
 
  update();
 })();
+
+(function(){
+  function forceIllustration(){
+    document.body.classList.remove("standard","theme-standard");
+    document.body.classList.add("cute","theme-cute","illustration");
+    try{ localStorage.setItem("daycareTheme","cute"); }catch(e){}
+  }
+  forceIllustration();
+
+  const resetBtn = document.getElementById("resetTodayBtn");
+  if(resetBtn){
+    resetBtn.addEventListener("click", function(){
+      const checked = Array.from(document.querySelectorAll('input[type="checkbox"]')).filter(x=>x.checked);
+      if(!checked.length){
+        resetBtn.animate(
+          [{transform:"scale(1)"},{transform:"scale(.96)"},{transform:"scale(1)"}],
+          {duration:220,easing:"ease-out"}
+        );
+        return;
+      }
+      const ok = confirm("要清除今天所有已完成的勾選嗎？");
+      if(!ok) return;
+
+      document.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
+        if(cb.checked){
+          cb.checked=false;
+          cb.dispatchEvent(new Event("change",{bubbles:true}));
+        }
+      });
+
+      // 清掉常見的當日儲存鍵，保留其他設定
+      try{
+        Object.keys(localStorage).forEach(k=>{
+          if(/check|task|daycare|today|daily/i.test(k) && !/theme/i.test(k)){
+            localStorage.removeItem(k);
+          }
+        });
+      }catch(e){}
+
+      if(typeof update === "function") update();
+
+      resetBtn.innerHTML='<span class="resetIcon">✓</span><span>已重置</span>';
+      setTimeout(()=>{
+        resetBtn.innerHTML='<span class="resetIcon">↻</span><span>重置今日</span>';
+      },900);
+    });
+  }
+})();
+
 </script>
 </body>
 </html>
