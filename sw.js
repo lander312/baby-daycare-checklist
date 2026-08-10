@@ -1,4 +1,4 @@
-const CACHE = "daycare-pwa-v4-grouped-icons";
+const CACHE = "daycare-pwa-v5-refined-layout";
 const ASSETS = [
   "./",
   "./index.html",

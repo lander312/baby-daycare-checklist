@@ -290,6 +290,102 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
   .hudIcon{width:38px;height:38px}
 }
 
+
+/* ===== V5：文字修正＋設計感插圖強化 ===== */
+.hero{
+  padding-right:180px;
+  min-height:222px;
+}
+.heroArt{
+  position:absolute;
+  right:14px;
+  top:16px;
+  width:148px;
+  height:168px;
+  pointer-events:none;
+}
+.artBlob{
+  position:absolute;border-radius:50%;
+  filter:blur(2px);
+}
+.artBlob1{
+  width:118px;height:118px;right:4px;top:6px;
+  background:radial-gradient(circle,#ffe2d1 0 38%, #fff3ea 62%, transparent 78%);
+}
+.artBlob2{
+  width:102px;height:102px;right:18px;bottom:0;
+  background:radial-gradient(circle,#dff1e8 0 40%, #f0faf5 64%, transparent 80%);
+}
+.artBadge{
+  position:absolute;display:grid;place-items:center;border-radius:18px;
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(238,225,217,.92);
+  box-shadow:0 10px 24px rgba(88,62,48,.10);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+}
+.artMain{
+  width:68px;height:68px;right:46px;top:26px;font-size:34px;
+  transform:rotate(-6deg);
+}
+.artA{
+  width:42px;height:42px;right:98px;top:86px;font-size:22px;
+  transform:rotate(-10deg);
+}
+.artB{
+  width:46px;height:46px;right:20px;top:88px;font-size:24px;
+  transform:rotate(10deg);
+}
+.artC{
+  width:38px;height:38px;right:63px;top:113px;font-size:20px;
+  transform:rotate(8deg);
+}
+.artSpark{
+  position:absolute;
+  color:#f0ba63;font-size:18px;font-weight:1000;
+  text-shadow:0 2px 7px rgba(240,186,99,.32);
+  animation:sparkTwinkle 1.8s ease-in-out infinite alternate;
+}
+.artSpark.s1{right:113px;top:18px}
+.artSpark.s2{right:10px;top:48px;animation-delay:.7s}
+@keyframes sparkTwinkle{to{transform:translateY(-4px) scale(1.12);opacity:.78}}
+
+.topline strong{letter-spacing:.01em}
+.row{
+  overflow:hidden;
+}
+.row::after{
+  content:"";
+  position:absolute;
+  right:-26px;top:50%;transform:translateY(-50%);
+  width:84px;height:84px;border-radius:50%;
+  background:radial-gradient(circle, rgba(255,237,223,.85) 0 22%, rgba(255,246,240,.4) 42%, transparent 70%);
+  z-index:0;
+}
+.row > *{position:relative;z-index:1}
+.itemIcon{
+  width:46px;height:46px;border-radius:15px;font-size:25px;
+}
+.qty{
+  min-width:58px;text-align:center;
+}
+@media(max-width:560px){
+  .hero{padding-right:126px;min-height:210px}
+  .heroArt{right:10px;top:18px;width:104px;height:150px}
+  .artBlob1{width:88px;height:88px;right:0;top:10px}
+  .artBlob2{width:78px;height:78px;right:10px;bottom:12px}
+  .artMain{width:52px;height:52px;right:28px;top:24px;font-size:28px}
+  .artA{width:34px;height:34px;right:68px;top:72px;font-size:17px}
+  .artB{width:36px;height:36px;right:4px;top:76px;font-size:18px}
+  .artC{width:31px;height:31px;right:38px;top:99px;font-size:16px}
+  .artSpark.s1{right:76px;top:10px}
+  .artSpark.s2{right:1px;top:36px}
+}
+@media(max-width:420px){
+  .hero{padding-right:104px;min-height:198px}
+  .itemIcon{width:42px;height:42px;font-size:23px}
+  .qty{min-width:52px}
+}
+
 </style>
 </head>
 <body>
@@ -307,6 +403,16 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
    <div class="track"><div class="fill" id="fill"></div></div>
   </div>
   <div class="milestone" id="milestone"><span>🌱</span><span>準備開始，今天也要順順利利！</span></div>
+  <div class="heroArt" aria-hidden="true">
+   <div class="artBlob artBlob1"></div>
+   <div class="artBlob artBlob2"></div>
+   <div class="artBadge artMain">🐰</div>
+   <div class="artBadge artA">🍼</div>
+   <div class="artBadge artB">🧸</div>
+   <div class="artBadge artC">🧼</div>
+   <div class="artSpark s1">✦</div>
+   <div class="artSpark s2">✦</div>
+  </div>
  </section>
 
 
@@ -325,6 +431,7 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
  <div class="topline"><strong>今日任務清單</strong><span class="count" id="count"></span></div>
 
  
+ 
  <section class="list">
   <div class="groupTitle"><span class="groupIcon">🧃</span><span>安撫・飲水用品</span></div>
   <label class="row"><input type="checkbox" data-id="pacifier"><span class="itemIcon">🍼</span><span class="info"><span class="name">奶嘴</span><span class="sub">外出安撫備用</span></span><span class="qty">× 2</span></label>
@@ -334,12 +441,14 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
   <div class="groupTitle"><span class="groupIcon">🍽️</span><span>用餐用品</span></div>
   <label class="row"><input type="checkbox" data-id="cutlery"><span class="itemIcon">🥄</span><span class="info"><span class="name">餐具組</span><span class="sub">用餐用品</span></span><span class="qty">× 2</span></label>
   <label class="row"><input type="checkbox" data-id="bowl"><span class="itemIcon">🥣</span><span class="info"><span class="name">餐碗</span><span class="sub">確認乾淨完整</span></span><span class="qty">× 2</span></label>
+  <label class="row"><input type="checkbox" data-id="waterproof-bib"><span class="itemIcon">🛡️</span><span class="info"><span class="name">防水圍兜</span><span class="sub">吃飯與喝水時使用</span></span><span class="qty">× 3</span></label>
 
   <div class="groupTitle"><span class="groupIcon">🧼</span><span>清潔・照護用品</span></div>
   <label class="row"><input type="checkbox" data-id="bib"><span class="itemIcon">🧸</span><span class="info"><span class="name">口水巾</span><span class="sub">乾淨替換用</span></span><span class="qty">× 2</span></label>
-  <label class="row"><input type="checkbox" data-id="waterproof-bib"><span class="itemIcon">🛡️</span><span class="info"><span class="name">防水口水巾</span><span class="sub">避免衣物沾濕</span></span><span class="qty">× 1</span></label>
   <label class="row"><input type="checkbox" data-id="diaper"><span class="itemIcon">☁️</span><span class="info"><span class="name">尿布</span><span class="sub">每日消耗備品</span></span><span class="qty">× 5</span></label>
-  <label class="row"><input type="checkbox" data-id="butt-towel"><span class="itemIcon">🧻</span><span class="info"><span class="name">擦屁屁專屬毛巾</span><span class="sub">清潔專用，別跟別的毛巾混住</span></span><span class="qty">× 1</span></label>
+  <label class="row"><input type="checkbox" data-id="changing-pad"><span class="itemIcon">🧷</span><span class="info"><span class="name">尿布墊</span><span class="sub">更換尿布時鋪墊使用</span></span><span class="qty">× 1</span></label>
+  <label class="row"><input type="checkbox" data-id="butt-towel"><span class="itemIcon">🧻</span><span class="info"><span class="name">擦屁巾</span><span class="sub">清潔專用，別跟別的毛巾混用</span></span><span class="qty">× 1</span></label>
+  <label class="row"><input type="checkbox" data-id="zip-bag"><span class="itemIcon">🗂️</span><span class="info"><span class="name">夾鏈袋</span><span class="sub">分類收納替換用品</span></span><span class="qty">× 2</span></label>
 
   <div class="groupTitle"><span class="groupIcon">🧍</span><span>個人物品</span></div>
   <label class="row"><input type="checkbox" data-id="clothes"><span class="itemIcon">👕</span><span class="info"><span class="name">衣物</span><span class="sub">一套完整替換衣物</span></span><span class="qty">× 1</span></label>
@@ -351,6 +460,7 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
   <div class="groupTitle mondayTag"><span class="groupIcon">🌙</span><span>週一限定</span></div>
   <label class="row monday" id="mondayRow"><input type="checkbox" data-id="sleep"><span class="itemIcon">🛏️</span><span class="info"><span class="name">棉被・枕頭・睡袋</span><span class="sub">週一限定</span></span><span class="qty">週一</span></label>
  </section>
+
 
 
  <section class="achievement" id="achievement"><div class="unlockRibbon">ACHIEVEMENT UNLOCKED</div>
