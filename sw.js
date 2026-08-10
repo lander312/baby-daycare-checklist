@@ -1,4 +1,4 @@
-const CACHE = "daycare-pwa-v9-network-first";
+const CACHE = "daycare-pwa-v10-network-first";
 const STATIC_ASSETS = [
   "./manifest.webmanifest",
   "./icon-192.png",
@@ -31,7 +31,6 @@ self.addEventListener("fetch", event => {
     req.destination === "document";
 
   if (isNavigation) {
-    // Network first: always prefer newest GitHub Pages HTML
     event.respondWith(
       fetch(req, { cache: "no-store" })
         .then(response => response)
@@ -40,7 +39,6 @@ self.addEventListener("fetch", event => {
     return;
   }
 
-  // Static assets can use cache-first
   event.respondWith(
     caches.match(req).then(cached =>
       cached || fetch(req).then(response => {
