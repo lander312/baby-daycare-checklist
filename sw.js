@@ -1,4 +1,4 @@
-const CACHE = "daycare-pwa-v5-refined-layout";
+const CACHE = "daycare-pwa-v6-fixed-badges-theme";
 const ASSETS = [
   "./",
   "./index.html",

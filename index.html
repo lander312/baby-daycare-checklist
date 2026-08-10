@@ -386,6 +386,87 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
   .qty{min-width:52px}
 }
 
+
+/* ===== V6：修正新增項目＋完成徽章＋主題切換 ===== */
+.heroControls{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  margin-top:12px;
+}
+.versionTag{
+  padding:6px 10px;border-radius:999px;
+  background:#fff4ec;border:1px solid #f1ddd1;color:#b26f5d;
+  font-size:11px;font-weight:1000;letter-spacing:.08em
+}
+.themeToggle{
+  display:inline-flex;gap:4px;padding:4px;border-radius:999px;
+  background:#fff;border:1px solid #eddcd1;box-shadow:0 4px 10px rgba(90,62,45,.06)
+}
+.themeBtn{
+  border:0;background:transparent;color:#8a7a71;
+  font:inherit;font-size:12px;font-weight:900;padding:7px 12px;border-radius:999px;
+}
+.themeBtn.active{
+  background:linear-gradient(135deg,#ffe9dc,#fff3e9);
+  color:#9a5f4f;
+}
+.badgeWall{
+  margin-top:16px;padding:16px 14px;border-radius:22px;
+  background:linear-gradient(145deg,#fffefc,#fff8f1);
+  border:1px solid #f0e3d9;box-shadow:0 10px 26px rgba(88,62,48,.06);
+}
+.badgeTitle{
+  font-size:14px;font-weight:1000;color:#7b6b62;margin-bottom:10px
+}
+.badgeGrid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px
+}
+.milestoneBadge{
+  display:flex;align-items:center;gap:10px;
+  border-radius:18px;padding:10px 11px;border:1px solid #efe6df;
+  background:#fff;opacity:.48;transform:scale(.98);
+  transition:.24s ease;
+}
+.milestoneBadge.unlocked{
+  opacity:1;transform:scale(1);
+  background:linear-gradient(145deg,#fffdf4,#fff7de);
+  border-color:#f0dda1;box-shadow:0 10px 20px rgba(206,168,73,.10);
+}
+.badgeMedal{
+  width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#fff7e0,#ffefbf);
+  font-size:24px;flex:none
+}
+.badgeMeta strong{display:block;font-size:14px;line-height:1.1}
+.badgeMeta span{display:block;font-size:11px;color:#8c7d74;margin-top:3px}
+.badgeToast{
+  margin-top:10px;padding:10px 12px;border-radius:14px;
+  background:#fff7dd;border:1px solid #f2de9b;color:#8a6e2d;
+  font-size:12px;font-weight:900
+}
+body.theme-cute{
+  background:
+    radial-gradient(circle at 10% 0%,#ffdfe8 0 8%,transparent 28%),
+    radial-gradient(circle at 100% 14%,#dff4ee 0 10%,transparent 28%),
+    linear-gradient(160deg,#fff9fb,#fffdfb 54%,#f6fbfd);
+}
+body.theme-cute .hero{
+  background:linear-gradient(145deg,#fffefc,#fff6fb);
+}
+body.theme-cute .groupIcon,
+body.theme-cute .itemIcon{
+  background:linear-gradient(145deg,#fff8fb,#ffeef6);
+}
+body.theme-cute .artMain{background:rgba(255,248,252,.92)}
+body.theme-cute .row::after{
+  background:radial-gradient(circle, rgba(255,230,240,.82) 0 22%, rgba(255,246,250,.36) 42%, transparent 70%);
+}
+body.theme-cute .badgeWall{
+  background:linear-gradient(145deg,#fffefd,#fff7fb);
+}
+@media(max-width:520px){
+  .badgeGrid{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -398,6 +479,13 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
   <h1>寶寶托嬰準備任務 🐰</h1>
   <div class="date" id="dateText"></div>
   <div class="streak">🔥 <span id="streakText">今天也來完成任務！</span></div>
+  <div class="heroControls">
+    <div class="versionTag">V6</div>
+    <div class="themeToggle" id="themeToggle" role="group" aria-label="主題切換">
+      <button type="button" class="themeBtn active" data-theme="default">標準</button>
+      <button type="button" class="themeBtn" data-theme="cute">可愛插畫</button>
+    </div>
+  </div>
   <div class="progressWrap">
    <div class="progressTop"><span>今日任務進度</span><span class="pct" id="pct">0%</span></div>
    <div class="track"><div class="fill" id="fill"></div></div>
@@ -432,6 +520,7 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
 
  
  
+ 
  <section class="list">
   <div class="groupTitle"><span class="groupIcon">🧃</span><span>安撫・飲水用品</span></div>
   <label class="row"><input type="checkbox" data-id="pacifier"><span class="itemIcon">🍼</span><span class="info"><span class="name">奶嘴</span><span class="sub">外出安撫備用</span></span><span class="qty">× 2</span></label>
@@ -441,18 +530,18 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
   <div class="groupTitle"><span class="groupIcon">🍽️</span><span>用餐用品</span></div>
   <label class="row"><input type="checkbox" data-id="cutlery"><span class="itemIcon">🥄</span><span class="info"><span class="name">餐具組</span><span class="sub">用餐用品</span></span><span class="qty">× 2</span></label>
   <label class="row"><input type="checkbox" data-id="bowl"><span class="itemIcon">🥣</span><span class="info"><span class="name">餐碗</span><span class="sub">確認乾淨完整</span></span><span class="qty">× 2</span></label>
-  <label class="row"><input type="checkbox" data-id="waterproof-bib"><span class="itemIcon">🛡️</span><span class="info"><span class="name">防水圍兜</span><span class="sub">吃飯與喝水時使用</span></span><span class="qty">× 3</span></label>
+  <label class="row"><input type="checkbox" data-id="waterproof-bib"><span class="itemIcon">🛡️</span><span class="info"><span class="name">防水圍兜</span><span class="sub">每天都會用到的吃飯用品</span></span><span class="qty">× 3</span></label>
 
   <div class="groupTitle"><span class="groupIcon">🧼</span><span>清潔・照護用品</span></div>
   <label class="row"><input type="checkbox" data-id="bib"><span class="itemIcon">🧸</span><span class="info"><span class="name">口水巾</span><span class="sub">乾淨替換用</span></span><span class="qty">× 2</span></label>
   <label class="row"><input type="checkbox" data-id="diaper"><span class="itemIcon">☁️</span><span class="info"><span class="name">尿布</span><span class="sub">每日消耗備品</span></span><span class="qty">× 5</span></label>
-  <label class="row"><input type="checkbox" data-id="changing-pad"><span class="itemIcon">🧷</span><span class="info"><span class="name">尿布墊</span><span class="sub">更換尿布時鋪墊使用</span></span><span class="qty">× 1</span></label>
-  <label class="row"><input type="checkbox" data-id="butt-towel"><span class="itemIcon">🧻</span><span class="info"><span class="name">擦屁巾</span><span class="sub">清潔專用，別跟別的毛巾混用</span></span><span class="qty">× 1</span></label>
+  <label class="row"><input type="checkbox" data-id="changing-pad"><span class="itemIcon">🧷</span><span class="info"><span class="name">尿布墊</span><span class="sub">每天更換尿布時使用</span></span><span class="qty">× 1</span></label>
+  <label class="row"><input type="checkbox" data-id="butt-towel"><span class="itemIcon">🧻</span><span class="info"><span class="name">擦屁巾</span><span class="sub">每日清潔專用</span></span><span class="qty">× 1</span></label>
   <label class="row"><input type="checkbox" data-id="zip-bag"><span class="itemIcon">🗂️</span><span class="info"><span class="name">夾鏈袋</span><span class="sub">分類收納替換用品</span></span><span class="qty">× 2</span></label>
 
   <div class="groupTitle"><span class="groupIcon">🧍</span><span>個人物品</span></div>
   <label class="row"><input type="checkbox" data-id="clothes"><span class="itemIcon">👕</span><span class="info"><span class="name">衣物</span><span class="sub">一套完整替換衣物</span></span><span class="qty">× 1</span></label>
-  <label class="row"><input type="checkbox" data-id="toothbrush"><span class="itemIcon">🪥</span><span class="info"><span class="name">牙刷</span><span class="sub">每日清潔用品</span></span><span class="qty">× 1</span></label>
+  <label class="row"><input type="checkbox" data-id="toothbrush"><span class="itemIcon">🪥</span><span class="info"><span class="name">牙刷</span><span class="sub">每天都會需要</span></span><span class="qty">× 1</span></label>
 
   <div class="groupTitle"><span class="groupIcon">📝</span><span>每日文件</span></div>
   <label class="row"><input type="checkbox" data-id="contact-book"><span class="itemIcon">📒</span><span class="info"><span class="name">聯絡簿</span><span class="sub">每日必帶｜確認已放入</span></span><span class="qty">每日</span></label>
@@ -463,7 +552,18 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
 
 
 
- <section class="achievement" id="achievement"><div class="unlockRibbon">ACHIEVEMENT UNLOCKED</div>
+
+ <section class="badgeWall" id="badgeWall">
+      <div class="badgeTitle">今日完成徽章</div>
+      <div class="badgeGrid">
+        <div class="milestoneBadge" data-threshold="25"><div class="badgeMedal">🥉</div><div class="badgeMeta"><strong>25%</strong><span>熱身啟動</span></div></div>
+        <div class="milestoneBadge" data-threshold="50"><div class="badgeMedal">🥈</div><div class="badgeMeta"><strong>50%</strong><span>進度過半</span></div></div>
+        <div class="milestoneBadge" data-threshold="75"><div class="badgeMedal">🥇</div><div class="badgeMeta"><strong>75%</strong><span>衝刺階段</span></div></div>
+        <div class="milestoneBadge" data-threshold="100"><div class="badgeMedal">🏆</div><div class="badgeMeta"><strong>100%</strong><span>任務完成</span></div></div>
+      </div>
+      <div class="badgeToast" id="badgeToast">尚未解鎖徽章，先完成第一項吧！</div>
+    </section>
+    <section class="achievement" id="achievement"><div class="unlockRibbon">ACHIEVEMENT UNLOCKED</div>
   <div class="trophy">🏆</div>
   <h2>今日托嬰任務完成！</h2>
   <p>所有用品都已確認，放心出門吧。<br>今天準備得非常完整 ✨</p>
@@ -474,7 +574,7 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
 
  <div class="installtip" id="installTip">
   📲 <b>安裝到 iPhone 主畫面：</b><br>
-  用 Safari 開啟這個網站 → 點下方「分享」→ 選「加入主畫面」→「加入」。之後就能像 App 一樣從桌面直接開啟。
+  用 Safari 開啟這個網站 → 點下方「分享」→ 選「加入主畫面」→「加入」。之後就能像 App 一樣從桌面直接開啟。若仍看到舊版，請關閉主畫面 App 後重開，必要時刪除後重新加入主畫面。
  </div>
 </main>
 
@@ -502,19 +602,28 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
        hero=document.getElementById("hero"), miniQuest=document.getElementById("miniQuest"),
        miniPct=document.getElementById("miniPct"), miniFill=document.getElementById("miniFill"),
        miniMessage=document.getElementById("miniMessage"), miniIcon=document.getElementById("miniIcon"),
-       miniTitle=document.getElementById("miniTitle");
+       miniTitle=document.getElementById("miniTitle"),
+       badgeToast=document.getElementById("badgeToast"),
+       badgeNodes=[...document.querySelectorAll(".milestoneBadge")],
+       themeButtons=[...document.querySelectorAll(".themeBtn")];
 
  function save(){
   try{const o={};boxes.forEach(b=>o[b.dataset.id]=b.checked);localStorage.setItem(key,JSON.stringify(o))}catch(e){}
  }
  function message(p){
   if(p===100)return["🏆","全部完成！今日任務 CLEAR，成就達成！"];
-  if(p>=90)return["👑","幾乎全滿，只差最後一步就完美收工！"];
   if(p>=75)return["🚀","最後衝刺！快要把今天任務全數清空了。"];
   if(p>=50)return["✨","過半啦！今天節奏很穩，繼續推進。"];
   if(p>=25)return["💪","進度開始加速，今天狀態不錯喔！"];
   if(p>0)return["🌟","第一項完成，任務正式啟動！"];
   return["🌱","準備開始，今天也要順順利利！"];
+ }
+ function badgeMessage(p){
+  if(p>=100) return "🏆 已解鎖 100% 徽章：任務完成";
+  if(p>=75) return "🥇 已解鎖 75% 徽章：衝刺階段";
+  if(p>=50) return "🥈 已解鎖 50% 徽章：進度過半";
+  if(p>=25) return "🥉 已解鎖 25% 徽章：熱身啟動";
+  return "尚未解鎖徽章，先完成第一項吧！";
  }
  function burst(){
   const colors=["#ef9e89","#f3c17d","#9bcab3","#d6a7cf","#86b9d8","#f1da73"];
@@ -543,6 +652,12 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
   miniQuest.classList.toggle("complete",done===total);
   miniIcon.textContent=done===total ? "🏆" : "🐰";
   miniTitle.textContent=done===total ? "今日任務完成！" : "寶寶托嬰準備任務";
+
+  badgeNodes.forEach(node=>{
+    const threshold = Number(node.dataset.threshold || 0);
+    node.classList.toggle("unlocked", p >= threshold);
+  });
+  badgeToast.textContent = badgeMessage(p);
 
   achievement.classList.toggle("show",done===total);
   if(done===total&&!celebrated){celebrated=true;burst();if(navigator.vibrate)navigator.vibrate([40,40,70])}
