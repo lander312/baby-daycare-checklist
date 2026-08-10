@@ -13,7 +13,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務 V10</title>
+<title>寶寶托嬰準備任務 V11</title>
 <style>
 :root{
  --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
@@ -697,6 +697,135 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   }
 }
 
+
+/* ===== V11：數量貼紙＋美式漫畫 Combo ===== */
+.row{padding-right:84px !important}
+.row::after{display:none !important}
+.qty{
+  min-width:58px !important;
+  padding:10px 8px !important;
+  border-radius:14px !important;
+  background:linear-gradient(145deg,#fff7f1,#ffe8dd) !important;
+  border:1px solid #f0d6cb !important;
+  color:#b4644f !important;
+  font-size:26px !important;
+  line-height:1 !important;
+  font-weight:1000 !important;
+  box-shadow:0 8px 18px rgba(162,101,78,.10), inset 0 1px 0 rgba(255,255,255,.8) !important;
+}
+.qty::before{display:none !important}
+.qty[data-qty="每日"], .qty[data-qty="週一"]{
+  font-size:14px !important;
+  min-width:62px !important;
+  padding:11px 8px !important;
+}
+@media(max-width:420px){
+  .row{padding-right:76px !important}
+  .qty{min-width:52px !important;font-size:23px !important;padding:9px 7px !important}
+  .qty[data-qty="每日"], .qty[data-qty="週一"]{font-size:13px !important;min-width:58px !important}
+}
+
+/* 完成提示：縮小、乾淨，從點擊位置出現 */
+.floatText{
+  min-width:72px !important;
+  padding:6px 10px 7px !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.96) !important;
+  border:1px solid rgba(236,193,168,.88) !important;
+  box-shadow:0 8px 18px rgba(86,59,45,.10) !important;
+  animation:v11Done .52s cubic-bezier(.2,.9,.22,1.08) forwards !important;
+}
+.floatText .completeWord{
+  font-size:15px !important;
+  letter-spacing:.1em !important;
+  color:#9a5845 !important;
+}
+@keyframes v11Done{
+  0%{opacity:0;transform:translate(-50%,8px) scale(.75)}
+  22%{opacity:1;transform:translate(-50%,0) scale(1.04)}
+  72%{opacity:1;transform:translate(-50%,-10px) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-22px) scale(.98)}
+}
+
+/* Combo Dock：美式漫畫爆裂字 */
+.comboDock{
+  right:10px !important;
+  top:calc(env(safe-area-inset-top) + 96px) !important;
+}
+.comboHit{
+  position:relative !important;
+  min-width:178px !important;
+  padding:18px 18px 16px !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  border:none !important;
+  box-shadow:none !important;
+  animation:v11ComicCombo .82s cubic-bezier(.15,.94,.24,1.12) forwards !important;
+  isolation:isolate;
+}
+.comboHit::before{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  background:linear-gradient(145deg,#ffe66f,#ffb32c);
+  clip-path:polygon(50% 0%, 61% 16%, 80% 5%, 76% 24%, 97% 25%, 82% 39%, 100% 50%, 82% 61%, 97% 75%, 76% 76%, 80% 95%, 61% 84%, 50% 100%, 39% 84%, 20% 95%, 24% 76%, 3% 75%, 18% 61%, 0% 50%, 18% 39%, 3% 25%, 24% 24%, 20% 5%, 39% 16%);
+  border:4px solid #2d1d11;
+  box-shadow:6px 6px 0 #2d1d11, 0 0 0 6px rgba(255,244,194,.42);
+  z-index:-2;
+  transform:rotate(-8deg);
+}
+.comboHit::after{
+  content:"";
+  position:absolute;
+  inset:8px;
+  background:radial-gradient(circle at 50% 45%, rgba(255,255,255,.45), rgba(255,255,255,0) 58%);
+  clip-path:inherit;
+  z-index:-1;
+}
+.comboWord{
+  display:block !important;
+  font-size:18px !important;
+  line-height:1 !important;
+  letter-spacing:.14em !important;
+  color:#2d1d11 !important;
+  text-shadow:2px 2px 0 rgba(255,255,255,.75) !important;
+  margin-bottom:3px !important;
+}
+.comboCount{gap:4px !important}
+.comboTimes{
+  font-size:32px !important;
+  color:#b64d1c !important;
+  transform:translateY(-4px) !important;
+  text-shadow:2px 2px 0 rgba(255,255,255,.55) !important;
+}
+.comboNumber{
+  font-size:88px !important;
+  color:#ffffff !important;
+  -webkit-text-stroke:5px #2d1d11;
+  text-shadow:5px 5px 0 #d15425, 9px 9px 0 rgba(45,29,17,.18) !important;
+  line-height:.8 !important;
+  letter-spacing:-.08em !important;
+}
+.comboHit.high .comboNumber{
+  font-size:96px !important;
+  text-shadow:5px 5px 0 #c3311f, 9px 9px 0 rgba(45,29,17,.22) !important;
+}
+@keyframes v11ComicCombo{
+  0%{opacity:0;transform:translateY(14px) scale(.4) rotate(-10deg)}
+  18%{opacity:1;transform:translateY(0) scale(1.16) rotate(2deg)}
+  48%{opacity:1;transform:translateY(-6px) scale(1) rotate(-2deg)}
+  78%{opacity:1;transform:translateY(-10px) scale(1.02) rotate(1deg)}
+  100%{opacity:0;transform:translateY(-34px) scale(.94) rotate(0deg)}
+}
+@media(max-width:420px){
+  .comboDock{right:2px !important; top:calc(env(safe-area-inset-top) + 92px) !important}
+  .comboHit{min-width:156px !important;padding:14px 14px 14px !important}
+  .comboWord{font-size:15px !important}
+  .comboTimes{font-size:24px !important}
+  .comboNumber{font-size:72px !important;-webkit-text-stroke:4px #2d1d11}
+  .comboHit.high .comboNumber{font-size:80px !important}
+}
+
 </style>
 </head>
 <body>
@@ -712,7 +841,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   <div class="streak">🔥 <span id="streakText">今天也來完成任務！</span></div>
 
   <div class="heroControls">
-    <div class="versionTag">V10</div>
+    <div class="versionTag">V11</div>
     <div class="themeToggle" id="themeToggle" role="group" aria-label="主題切換">
       <button type="button" class="themeBtn" data-theme="default">標準</button>
       <button type="button" class="themeBtn active" data-theme="cute">可愛插畫</button>
@@ -981,14 +1110,13 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
      const currentCombo = bumpCombo();
 
      // 同一位置：爆點 -> COMPLETE +1 -> COMBO
-     spawnBurst(row);
-     setTimeout(()=>spawnFloat(row), 70);
+     spawnFloat(row);
      if(currentCombo >= 2){
-       setTimeout(()=>showComboAt(row, currentCombo), 430);
+       setTimeout(()=>showComboAt(row, currentCombo), 260);
      }
 
      setTimeout(()=>row.classList.remove("hitFlash","impactHit"),720);
-     if(navigator.vibrate) navigator.vibrate(22);
+     if(navigator.vibrate) navigator.vibrate(16);
    }else{
      resetCombo();
    }
@@ -1008,7 +1136,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
    navigator.serviceWorker.getRegistrations()
      .then(regs=>Promise.all(regs.map(r=>r.unregister())))
-     .then(()=>navigator.serviceWorker.register("./sw.js?v=9"))
+     .then(()=>navigator.serviceWorker.register("./sw.js?v=11"))
      .catch(()=>{});
  }
 
