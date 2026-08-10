@@ -13,7 +13,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務 V12</title>
+<title>寶寶托嬰準備任務 V13</title>
 <style>
 :root{
  --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
@@ -899,6 +899,82 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   .comboHit.high .comboNumber{font-size:64px !important}
 }
 
+
+/* ===== V13：無爆炸框的乾淨 Combo 字效 ===== */
+.comboDock{
+  right:12px !important;
+  top:calc(env(safe-area-inset-top) + 96px) !important;
+}
+.comboHit{
+  min-width:148px !important;
+  padding:8px 12px 10px !important;
+  border-radius:16px !important;
+  background:rgba(255,252,247,.94) !important;
+  border:1px solid rgba(229,204,183,.92) !important;
+  box-shadow:0 12px 26px rgba(89,59,43,.12) !important;
+  backdrop-filter:blur(10px);
+  animation:v13Combo .72s cubic-bezier(.16,.93,.25,1.08) forwards !important;
+}
+.comboHit::before,.comboHit::after{display:none !important}
+.comboGrade{
+  display:block;
+  font-size:14px;
+  line-height:1;
+  font-weight:1000;
+  font-style:italic;
+  letter-spacing:.12em;
+  color:#d06f46;
+  margin-bottom:2px;
+  text-align:center;
+}
+.comboWord{
+  display:block !important;
+  font-size:11px !important;
+  line-height:1 !important;
+  letter-spacing:.22em !important;
+  color:#8c776b !important;
+  text-shadow:none !important;
+  margin-bottom:2px !important;
+}
+.comboCount{gap:2px !important}
+.comboTimes{
+  font-size:22px !important;
+  color:#b98064 !important;
+  transform:translateY(-4px) !important;
+  text-shadow:none !important;
+}
+.comboNumber{
+  font-size:64px !important;
+  line-height:.78 !important;
+  letter-spacing:-.06em !important;
+  font-style:italic;
+  color:#4f4039 !important;
+  -webkit-text-stroke:0 !important;
+  text-shadow:
+    3px 3px 0 rgba(224,154,122,.22),
+    7px 7px 0 rgba(224,154,122,.08) !important;
+}
+.comboHit.high .comboNumber{font-size:70px !important;color:#8d4c36 !important}
+.comboHit.grade-great .comboGrade{color:#c8872d}
+.comboHit.grade-perfect .comboGrade{color:#a84e79}
+.comboHit.grade-perfect{
+  background:rgba(255,248,252,.96) !important;
+  border-color:rgba(224,178,202,.95) !important;
+}
+@keyframes v13Combo{
+  0%{opacity:0;transform:translateX(18px) scale(.7) skewX(-7deg)}
+  24%{opacity:1;transform:translateX(-2px) scale(1.08) skewX(-7deg)}
+  58%{opacity:1;transform:translateX(0) scale(1) skewX(-5deg)}
+  100%{opacity:0;transform:translateX(-18px) translateY(-14px) scale(.96) skewX(-4deg)}
+}
+@media(max-width:420px){
+  .comboDock{right:6px !important;top:calc(env(safe-area-inset-top) + 92px) !important}
+  .comboHit{min-width:132px !important;padding:7px 10px 9px !important}
+  .comboGrade{font-size:12px !important}
+  .comboNumber{font-size:54px !important}
+  .comboHit.high .comboNumber{font-size:60px !important}
+}
+
 </style>
 </head>
 <body>
@@ -914,7 +990,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   <div class="streak">🔥 <span id="streakText">今天也來完成任務！</span></div>
 
   <div class="heroControls">
-    <div class="versionTag">V12</div>
+    <div class="versionTag">V13</div>
     <div class="themeToggle" id="themeToggle" role="group" aria-label="主題切換">
       <button type="button" class="themeBtn" data-theme="default">標準</button>
       <button type="button" class="themeBtn active" data-theme="cute">可愛插畫</button>
@@ -1126,14 +1202,17 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  }
  function showComboAt(el, count){
   if(count < 2) return;
+  const grade = count >= 5 ? "PERFECT!" : (count >= 3 ? "GREAT!" : "NICE!");
+  const gradeClass = count >= 5 ? " grade-perfect" : (count >= 3 ? " grade-great" : " grade-nice");
   const n=document.createElement("div");
-  n.className="comboHit" + (count >= 5 ? " high" : "");
+  n.className="comboHit" + (count >= 5 ? " high" : "") + gradeClass;
   n.innerHTML=
-    '<span class="comboWord">COMBO</span>'+
+    '<span class="comboGrade">'+grade+'</span>'+ 
+    '<span class="comboWord">COMBO</span>'+ 
     '<span class="comboCount"><span class="comboTimes">×</span><span class="comboNumber">'+count+'</span></span>';
   comboDock.innerHTML="";
   comboDock.appendChild(n);
-  setTimeout(()=>n.remove(),920);
+  setTimeout(()=>n.remove(),820);
  }
  function bumpCombo(){
   comboCount += 1;
@@ -1209,7 +1288,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
    navigator.serviceWorker.getRegistrations()
      .then(regs=>Promise.all(regs.map(r=>r.unregister())))
-     .then(()=>navigator.serviceWorker.register("./sw.js?v=12"))
+     .then(()=>navigator.serviceWorker.register("./sw.js?v=13"))
      .catch(()=>{});
  }
 
