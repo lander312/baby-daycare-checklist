@@ -3,494 +3,332 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
-<meta name="theme-color" content="#fff8f3">
+<meta name="theme-color" content="#fff6fb">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="托嬰準備">
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務</title>
+<title>寶寶托嬰準備任務 V7</title>
 <style>
 :root{
- --ink:#393431;--muted:#92877f;--line:#eadfd8;--pink:#e89c87;
- --green:#547569;--mint:#b8d9c8;--gold:#e5b85c;
+ --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
+ --pink:#e89c87; --rose:#ffdfe8; --rose2:#fff2f7;
+ --peach:#ffe6da; --green:#547569; --mint:#b8d9c8;
+ --gold:#dbb14b; --gold2:#fff1be; --bg:#fff9fb;
+ --shadow:0 14px 36px rgba(90,62,45,.09);
 }
 *{box-sizing:border-box}
-html{background:#fff8f3}
+html{background:var(--bg)}
 body{
  margin:0;min-height:100vh;color:var(--ink);overflow-x:hidden;
  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
  background:
- radial-gradient(circle at 8% 2%,#ffe0d3 0 8%,transparent 27%),
- radial-gradient(circle at 96% 14%,#e4f3eb 0 9%,transparent 28%),
- linear-gradient(160deg,#fff9f5,#fffdf9 55%,#f6fbf8);
+ radial-gradient(circle at 9% 0%,#ffe4ec 0 8%,transparent 28%),
+ radial-gradient(circle at 100% 14%,#e2f6ef 0 10%,transparent 28%),
+ linear-gradient(160deg,#fff9fb,#fffefc 54%,#f7fbfd);
  padding-top:env(safe-area-inset-top);
  padding-bottom:env(safe-area-inset-bottom);
 }
+body.theme-default{
+ background:
+ radial-gradient(circle at 8% 2%,#ffe0d3 0 8%,transparent 27%),
+ radial-gradient(circle at 96% 14%,#e4f3eb 0 9%,transparent 28%),
+ linear-gradient(160deg,#fff9f5,#fffdf9 55%,#f6fbf8);
+}
 main{max-width:720px;margin:auto;padding:16px 12px 48px;position:relative;z-index:2}
 .hero{
- position:relative;overflow:hidden;background:linear-gradient(145deg,#ffffffee,#fffaf5dc);
- border:1px solid #fff;border-radius:28px;padding:22px 18px 19px;
- box-shadow:0 18px 45px rgba(88,62,48,.10)
+ position:relative;overflow:hidden;
+ background:linear-gradient(145deg,#fffefd,#fff7fb);
+ border:1px solid #fff;
+ border-radius:28px;padding:22px 118px 18px 18px;
+ box-shadow:0 18px 45px rgba(88,62,48,.10);
+ min-height:210px;
 }
-.hero:after{content:"☁️";position:absolute;right:18px;top:20px;font-size:38px;opacity:.52;animation:cloud 3.5s ease-in-out infinite}
-@keyframes cloud{50%{transform:translateY(-5px) translateX(2px)}}
+body.theme-default .hero{background:linear-gradient(145deg,#ffffffee,#fffaf5dc)}
 .kicker{font-size:12px;font-weight:900;letter-spacing:.14em;color:#b77765;margin-bottom:7px}
-h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
+h1{font-size:24px;line-height:1.23;margin:0 0 6px}
 .date{font-size:13px;color:var(--muted);font-weight:700}
 .streak{
- margin-top:15px;display:inline-flex;align-items:center;gap:7px;padding:7px 10px;
+ margin-top:13px;display:inline-flex;align-items:center;gap:7px;padding:7px 10px;
  border-radius:999px;background:#fff2e9;border:1px solid #f6ded0;
  font-size:12px;font-weight:900;color:#aa6a56
 }
-.progressWrap{margin-top:17px}
+.heroControls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:12px}
+.versionTag{
+ padding:6px 10px;border-radius:999px;background:#fff4ec;border:1px solid #f1ddd1;
+ color:#b26f5d;font-size:11px;font-weight:1000;letter-spacing:.08em
+}
+.themeToggle{
+ display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:#fff;
+ border:1px solid #eddcd1;box-shadow:0 4px 10px rgba(90,62,45,.06)
+}
+.themeBtn{
+ border:0;background:transparent;color:#8a7a71;
+ font:inherit;font-size:12px;font-weight:900;padding:7px 12px;border-radius:999px
+}
+.themeBtn.active{background:linear-gradient(135deg,#ffe9dc,#fff3e9);color:#9a5f4f}
+.theme-default .themeBtn.active{background:linear-gradient(135deg,#eff8f2,#fffaf1)}
+
+.progressWrap{margin-top:15px}
 .progressTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
-.progressTop span:first-child{font-size:13px;font-weight:900}.pct{font-size:15px;font-weight:1000;color:#b96f5c}
+.progressTop span:first-child{font-size:13px;font-weight:900}
+.pct{font-size:15px;font-weight:1000;color:#b96f5c}
 .track{height:13px;border-radius:999px;background:#eee8e4;overflow:hidden}
-.fill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#e99b84,#f2be8c,#a9d2bd);transition:width .42s cubic-bezier(.2,.8,.2,1)}
+.fill{
+ height:100%;width:0;border-radius:999px;
+ background:linear-gradient(90deg,#e99b84,#f2be8c,#a9d2bd);
+ transition:width .42s cubic-bezier(.2,.8,.2,1)
+}
 .milestone{
- margin:13px 2px 0;padding:10px 12px;border-radius:15px;background:#ffffffb8;
+ margin:12px 2px 0;padding:10px 12px;border-radius:15px;
+ background:linear-gradient(145deg,#fffdfb,#fff7f2);
  border:1px solid #f0e6df;font-size:13px;font-weight:850;color:#766a63;
- display:flex;align-items:center;gap:8px;min-height:41px
+ display:flex;align-items:center;gap:8px;min-height:42px;position:relative
 }
 .milestone.pop{animation:pop .42s cubic-bezier(.2,.9,.2,1.3)}
 @keyframes pop{0%{transform:scale(.94);opacity:.5}70%{transform:scale(1.02)}100%{transform:scale(1);opacity:1}}
-.topline{display:flex;justify-content:space-between;align-items:end;margin:22px 4px 10px}
-.topline strong{font-size:18px}.count{font-size:13px;color:var(--muted)}
+.milestone::after{
+ content:"";position:absolute;right:12px;top:50%;transform:translateY(-50%);
+ width:26px;height:26px;border-radius:50%;
+ background:radial-gradient(circle,#ffe7a6 0 25%, #fff5d4 40%, transparent 65%);
+ opacity:.9
+}
+
+.heroArt{position:absolute;right:10px;top:14px;width:102px;height:152px;pointer-events:none}
+.artBlob{position:absolute;border-radius:50%;filter:blur(2px)}
+.artBlob1{width:88px;height:88px;right:0;top:10px;background:radial-gradient(circle,#ffe2d1 0 38%, #fff3ea 62%, transparent 78%)}
+.artBlob2{width:78px;height:78px;right:10px;bottom:12px;background:radial-gradient(circle,#dff1e8 0 40%, #f0faf5 64%, transparent 80%)}
+.artBadge{
+ position:absolute;display:grid;place-items:center;border-radius:18px;
+ background:rgba(255,255,255,.88);border:1px solid rgba(238,225,217,.92);
+ box-shadow:0 10px 24px rgba(88,62,48,.10);backdrop-filter:blur(12px)
+}
+.artMain{width:52px;height:52px;right:28px;top:24px;font-size:28px;transform:rotate(-6deg)}
+.artA{width:34px;height:34px;right:68px;top:72px;font-size:17px;transform:rotate(-10deg)}
+.artB{width:36px;height:36px;right:4px;top:76px;font-size:18px;transform:rotate(10deg)}
+.artC{width:31px;height:31px;right:38px;top:99px;font-size:16px;transform:rotate(8deg)}
+.artSpark{position:absolute;color:#f0ba63;font-size:18px;font-weight:1000;text-shadow:0 2px 7px rgba(240,186,99,.32);animation:sparkTwinkle 1.8s ease-in-out infinite alternate}
+.artSpark.s1{right:76px;top:10px}.artSpark.s2{right:1px;top:36px;animation-delay:.7s}
+@keyframes sparkTwinkle{to{transform:translateY(-4px) scale(1.12);opacity:.78}}
+
+.stickyHud{
+ position:-webkit-sticky;position:sticky;top:calc(env(safe-area-inset-top) + 4px);z-index:90;
+ margin:10px 0 12px;padding:10px 12px;border-radius:18px;
+ background:linear-gradient(145deg,rgba(255,252,249,.97),rgba(255,248,243,.93));
+ border:1px solid rgba(235,222,214,.96);box-shadow:0 10px 28px rgba(75,55,45,.11);
+ backdrop-filter:blur(18px);display:flex;align-items:center;gap:10px
+}
+.stickyHud.complete{background:rgba(239,249,243,.96);border-color:#d3e7dc}
+.hudIcon{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;font-size:21px;background:#fff2e9;flex:none}
+.stickyHud.complete .hudIcon{background:#e7f5ed}
+.hudBody{flex:1;min-width:0}
+.hudTop{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.hudTitle{font-size:13px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hudPct{font-size:13px;font-weight:1000;color:#b86d5b;flex:none}
+.stickyHud.complete .hudPct{color:#547569}
+.hudTrack{height:8px;margin-top:5px;background:#eee8e4;border-radius:999px;overflow:hidden}
+.hudFill{height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#e99b84,#f2be8c,#a9d2bd);transition:width .42s cubic-bezier(.2,.8,.2,1)}
+.hudMessage{margin-top:4px;font-size:11px;font-weight:850;color:#8b7f77;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.badgeWall{
+ margin:0 0 14px;padding:14px 12px;border-radius:22px;
+ background:linear-gradient(145deg,#fffefc,#fff8f1);
+ border:1px solid #f0e3d9;box-shadow:0 10px 26px rgba(88,62,48,.06)
+}
+body.theme-default .badgeWall{background:linear-gradient(145deg,#fffefc,#fff8f1)}
+.badgeTitle{font-size:14px;font-weight:1000;color:#7b6b62;margin-bottom:10px}
+.badgeGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.milestoneBadge{
+ display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+ border-radius:18px;padding:11px 8px;border:1px solid #efe6df;background:#fff;
+ opacity:.45;transform:scale(.98);transition:.24s ease;min-height:96px
+}
+.milestoneBadge.unlocked{
+ opacity:1;transform:scale(1);background:linear-gradient(145deg,#fffdf4,#fff7de);
+ border-color:#f0dda1;box-shadow:0 10px 20px rgba(206,168,73,.10)
+}
+.badgeCircle{
+ width:42px;height:42px;border-radius:50%;display:grid;place-items:center;
+ background:radial-gradient(circle at 35% 35%, #fff8de 0 20%, #f4d273 55%, #d9aa42 100%);
+ border:2px solid rgba(255,255,255,.75);color:#7d5e18;font-size:13px;font-weight:1000;
+ box-shadow:inset 0 1px 0 rgba(255,255,255,.8),0 4px 10px rgba(180,135,40,.18)
+}
+.badgeLabel{margin-top:8px;font-size:13px;font-weight:1000;line-height:1}
+.badgeSub{margin-top:4px;font-size:10px;color:#8c7d74;line-height:1.2}
+.badgeToast{
+ margin-top:10px;padding:10px 12px;border-radius:14px;background:#fff7dd;
+ border:1px solid #f2de9b;color:#8a6e2d;font-size:12px;font-weight:900
+}
+
+.topline{display:flex;justify-content:space-between;align-items:end;margin:8px 4px 10px}
+.topline strong{font-size:18px;letter-spacing:.01em}.count{font-size:13px;color:var(--muted)}
 .list{display:grid;gap:10px}
+.groupTitle{
+ display:flex;align-items:center;gap:10px;margin:10px 4px 2px;padding:0 2px;
+ font-size:13px;font-weight:950;color:#7a6c63;letter-spacing:.02em
+}
+.groupIcon{
+ width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
+ background:linear-gradient(145deg,#fff6ee,#ffe7d7);box-shadow:0 4px 12px rgba(90,62,45,.06);font-size:17px;flex:none
+}
+body.theme-default .groupIcon{background:linear-gradient(145deg,#fff6ee,#ffe7d7)}
+.mondayTag .groupIcon{background:linear-gradient(145deg,#fff7db,#fff0ba)}
 .row{
- position:relative;display:flex;align-items:center;gap:13px;padding:13px 12px;border-radius:19px;
+ position:relative;display:flex;align-items:center;gap:12px;padding:13px 12px;border-radius:19px;
  background:#ffffffdc;border:1px solid var(--line);box-shadow:0 8px 22px rgba(85,63,50,.05);
- cursor:pointer;-webkit-tap-highlight-color:transparent;transition:.18s
+ cursor:pointer;-webkit-tap-highlight-color:transparent;transition:.18s;overflow:hidden
 }
 .row:active{transform:scale(.985)}
 .row.justdone{animation:itemDone .48s cubic-bezier(.2,.9,.25,1.25)}
 @keyframes itemDone{45%{transform:scale(1.035)}}
+.row::after{
+ content:"";position:absolute;right:-26px;top:50%;transform:translateY(-50%);
+ width:84px;height:84px;border-radius:50%;
+ background:radial-gradient(circle, rgba(255,237,223,.85) 0 22%, rgba(255,246,240,.4) 42%, transparent 70%);
+ z-index:0
+}
+body.theme-default .row::after{
+ background:radial-gradient(circle, rgba(255,237,223,.85) 0 22%, rgba(255,246,240,.4) 42%, transparent 70%)
+}
+.row > *{position:relative;z-index:1}
 .row input{
  appearance:none;-webkit-appearance:none;width:32px;height:32px;margin:0;flex:none;
  border:2px solid #ddcec5;border-radius:10px;background:#fff;display:grid;place-items:center;transition:.18s
 }
 .row input:checked{background:linear-gradient(145deg,#b8d9c8,#91bda8);border-color:#9fc7b4;box-shadow:0 0 0 5px rgba(169,210,191,.18)}
 .row input:checked:after{content:"✓";color:#fff;font-size:20px;font-weight:1000;line-height:1}
-.info{flex:1;min-width:0}.name{display:block;font-size:16px;font-weight:900}.sub{display:block;font-size:12px;color:var(--muted);margin-top:3px}
-.qty{padding:7px 10px;border-radius:999px;background:#fff0e8;color:#a86a5b;font-size:13px;font-weight:900;white-space:nowrap}
+.itemIcon{
+ width:46px;height:46px;border-radius:15px;display:grid;place-items:center;flex:none;
+ background:linear-gradient(145deg,#fff8fb,#ffeef6);box-shadow:0 6px 14px rgba(95,65,50,.06);
+ font-size:25px;line-height:1;transition:transform .2s ease, box-shadow .2s ease
+}
+body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
+.row.done .itemIcon{transform:scale(.96);background:linear-gradient(145deg,#eef8f2,#dff0e7)}
+.row:active .itemIcon{transform:scale(1.06)}
+.info{flex:1;min-width:0}.name{display:block;font-size:16.5px;font-weight:900}.sub{display:block;font-size:12.5px;color:var(--muted);margin-top:3px}
+.qty{
+ min-width:58px;text-align:center;padding:7px 10px;border-radius:999px;
+ background:#fff0e8;color:#a86a5b;font-size:13px;font-weight:900;white-space:nowrap;
+ box-shadow:inset 0 -1px 0 rgba(255,255,255,.55)
+}
 .row.done{opacity:.65;background:#f7faf8}.row.done .name{text-decoration:line-through;text-decoration-thickness:2px;text-decoration-color:#9db8aa}
-.monday{border-style:dashed;background:linear-gradient(135deg,#fff9e8,#fff)}.monday .qty{background:#fff0bf;color:#92722f}
+.monday{border-style:dashed;background:linear-gradient(135deg,#fff9e8,#fff)}
+.monday .qty{background:#fff0bf;color:#92722f}
+
 .achievement{
  display:none;margin-top:18px;padding:22px 18px;border-radius:24px;text-align:center;
  background:linear-gradient(145deg,#eef9f3,#fffdf7);border:1px solid #d8eadf;
- box-shadow:0 14px 34px rgba(74,107,91,.10)
+ box-shadow:0 14px 34px rgba(74,107,91,.10);position:relative;overflow:hidden
 }
 .achievement.show{display:block;animation:achievementIn .65s cubic-bezier(.15,.9,.2,1.15)}
 @keyframes achievementIn{0%{opacity:0;transform:translateY(14px) scale(.94)}100%{opacity:1;transform:none}}
-.trophy{font-size:46px}.achievement h2{margin:7px 0 4px;font-size:22px}.achievement p{margin:0;color:#6f8279;font-size:13px;line-height:1.6}
-.badge{display:inline-flex;margin-top:12px;padding:8px 12px;border-radius:999px;background:#fff6d9;border:1px solid #f1dda0;color:#92712b;font-size:12px;font-weight:900}
-.actions{display:flex;gap:10px;margin-top:18px}.actions button{flex:1;border:0;border-radius:17px;padding:14px;font:inherit;font-weight:900}
-#reset{background:#fff;border:1px solid var(--line);color:#776c65}#all{background:linear-gradient(135deg,#5e8074,#47695e);color:white}
+.unlockRibbon{
+ display:inline-flex;margin-bottom:10px;padding:7px 12px;border-radius:999px;
+ background:linear-gradient(135deg,#fff8dc,#ffe6a8);border:1px solid #f1dd9f;
+ color:#8f6f29;font-size:11px;font-weight:1000;letter-spacing:.08em
+}
+.achievementSeal{
+ width:78px;height:78px;margin:0 auto 8px;border-radius:50%;
+ background:radial-gradient(circle at 35% 35%, #fff8de 0 18%, #f4d273 52%, #d8aa45 100%);
+ border:4px solid rgba(255,255,255,.82);
+ display:grid;place-items:center;color:#825d10;font-size:19px;font-weight:1000;
+ box-shadow:0 12px 24px rgba(181,140,44,.15)
+}
+.achievement h2{margin:7px 0 4px;font-size:22px}.achievement p{margin:0;color:#6f8279;font-size:13px;line-height:1.6}
+.badge{
+ display:inline-flex;margin-top:12px;padding:8px 12px;border-radius:999px;background:#fff6d9;
+ border:1px solid #f1dda0;color:#92712b;font-size:12px;font-weight:900;box-shadow:0 8px 18px rgba(170,132,34,.10)
+}
+.achievement::before,.achievement::after{
+ content:"✦";position:absolute;font-size:28px;opacity:.65;color:#e7bf67;
+ animation:sparkleFloat 2.6s ease-in-out infinite alternate
+}
+.achievement::before{left:18px;top:18px}.achievement::after{right:18px;bottom:18px;animation-delay:.7s}
+@keyframes sparkleFloat{to{transform:translateY(-6px) scale(1.06)}}
+
+.actions{display:flex;gap:10px;margin-top:18px}
+.actions button{flex:1;border:0;border-radius:17px;padding:14px;font:inherit;font-weight:900}
+#reset{background:#fff;border:1px solid var(--line);color:#776c65}
+#all{background:linear-gradient(135deg,#5e8074,#47695e);color:white}
 .installtip{
  margin-top:18px;padding:12px 14px;border-radius:16px;background:#fff9e8;border:1px solid #f2dfae;
  color:#7b6833;font-size:12px;line-height:1.6;display:none
 }
-.confetti{pointer-events:none;position:fixed;inset:0;overflow:hidden;z-index:99}.piece{position:absolute;top:-20px;width:10px;height:14px;border-radius:3px;animation:fall var(--dur) linear forwards}
+
+/* effects */
+.fxLayer{position:fixed;inset:0;pointer-events:none;z-index:120;overflow:hidden}
+.floatText{
+ position:fixed;left:0;top:0;padding:7px 10px;border-radius:999px;
+ background:rgba(255,255,255,.94);border:1px solid rgba(239,223,214,.95);
+ color:#a15d4c;font-size:12px;font-weight:1000;box-shadow:0 8px 20px rgba(86,59,45,.10);
+ animation:floatUp .95s ease-out forwards
+}
+@keyframes floatUp{
+ 0%{opacity:0;transform:translate(-50%,0) scale(.85)}
+ 20%{opacity:1}
+ 100%{opacity:0;transform:translate(-50%,-42px) scale(1.04)}
+}
+.comboFx{
+ position:fixed;right:16px;top:calc(env(safe-area-inset-top) + 92px);
+ padding:10px 14px;border-radius:16px;background:linear-gradient(135deg,#fff7df,#ffe8b3);
+ border:1px solid #f0d98f;color:#8a6315;box-shadow:0 12px 24px rgba(165,125,27,.16);
+ font-size:14px;font-weight:1000;opacity:0;transform:translateY(4px) scale(.92);
+ z-index:121
+}
+.comboFx.show{animation:comboPop .92s ease forwards}
+.comboFx small{display:block;font-size:10px;opacity:.8;letter-spacing:.08em}
+@keyframes comboPop{
+ 0%{opacity:0;transform:translateY(8px) scale(.9)}
+ 18%{opacity:1;transform:translateY(0) scale(1.08)}
+ 100%{opacity:0;transform:translateY(-20px) scale(1)}
+}
+.confetti{pointer-events:none;position:fixed;inset:0;overflow:hidden;z-index:99}
+.piece{position:absolute;top:-20px;width:10px;height:14px;border-radius:3px;animation:fall var(--dur) linear forwards}
 @keyframes fall{to{transform:translate3d(var(--x),110vh,0) rotate(720deg);opacity:.9}}
 
-/* ===== 滑動後縮成迷你任務列 ===== */
-.miniQuest{
-  position:fixed;
-  left:50%;
-  top:calc(env(safe-area-inset-top) + 8px);
-  transform:translate(-50%,-18px) scale(.98);
-  width:min(calc(100% - 20px),696px);
-  z-index:80;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  padding:10px 12px;
-  border-radius:18px;
-  background:rgba(255,252,249,.92);
-  border:1px solid rgba(235,222,214,.95);
-  box-shadow:0 10px 30px rgba(75,55,45,.12);
-  -webkit-backdrop-filter:blur(18px);
-  backdrop-filter:blur(18px);
-  opacity:0;
-  pointer-events:none;
-  transition:opacity .24s ease, transform .28s cubic-bezier(.2,.8,.2,1), background .25s ease;
-}
-.miniQuest.show{
-  opacity:1;
-  transform:translate(-50%,0) scale(1);
-  pointer-events:auto;
-}
-.miniQuest.complete{
-  background:rgba(239,249,243,.95);
-  border-color:#d3e7dc;
-}
-.miniIcon{
-  width:34px;height:34px;border-radius:11px;flex:none;
-  display:grid;place-items:center;
-  background:#fff2e9;font-size:19px;
-}
-.miniQuest.complete .miniIcon{background:#e7f5ed}
-.miniBody{flex:1;min-width:0}
-.miniTop{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:8px;margin-bottom:5px
-}
-.miniTitle{
-  font-size:13px;font-weight:950;white-space:nowrap;
-  overflow:hidden;text-overflow:ellipsis
-}
-.miniPct{
-  font-size:13px;font-weight:1000;color:#b86d5b;flex:none
-}
-.miniQuest.complete .miniPct{color:#547569}
-.miniTrack{
-  height:7px;background:#eee8e4;border-radius:999px;overflow:hidden
-}
-.miniFill{
-  width:0;height:100%;border-radius:999px;
-  background:linear-gradient(90deg,#e99b84,#f2be8c,#a9d2bd);
-  transition:width .42s cubic-bezier(.2,.8,.2,1)
-}
-.miniMessage{
-  margin-top:4px;font-size:10.5px;font-weight:800;color:#8c7f77;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
-}
-@media (max-width:420px){
-  .miniQuest{width:calc(100% - 16px);top:calc(env(safe-area-inset-top) + 6px);padding:9px 10px}
-  .miniMessage{font-size:10px}
-}
-
-
-/* ===== V3：真正黏頂的任務 HUD（不依賴滑動偵測） ===== */
-.stickyHud{
-  position:-webkit-sticky;
-  position:sticky;
-  top:calc(env(safe-area-inset-top) + 6px);
-  z-index:90;
-  margin:10px 0 12px;
-  padding:10px 12px;
-  border-radius:18px;
-  background:rgba(255,252,249,.94);
-  border:1px solid rgba(235,222,214,.96);
-  box-shadow:0 10px 28px rgba(75,55,45,.11);
-  -webkit-backdrop-filter:blur(18px);
-  backdrop-filter:blur(18px);
-  display:flex;
-  align-items:center;
-  gap:10px;
-  transition:background .25s ease,border-color .25s ease,box-shadow .25s ease;
-}
-.stickyHud.complete{
-  background:rgba(239,249,243,.96);
-  border-color:#d3e7dc;
-  box-shadow:0 10px 30px rgba(70,110,90,.13);
-}
-.hudIcon{
-  width:36px;height:36px;border-radius:12px;flex:none;
-  display:grid;place-items:center;font-size:20px;background:#fff2e9;
-}
-.stickyHud.complete .hudIcon{background:#e7f5ed}
-.hudBody{flex:1;min-width:0}
-.hudTop{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.hudTitle{
-  font-size:13px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis
-}
-.hudPct{font-size:13px;font-weight:1000;color:#b86d5b;flex:none}
-.stickyHud.complete .hudPct{color:#547569}
-.hudTrack{
-  height:7px;margin-top:5px;background:#eee8e4;border-radius:999px;overflow:hidden
-}
-.hudFill{
-  height:100%;width:0;border-radius:999px;
-  background:linear-gradient(90deg,#e99b84,#f2be8c,#a9d2bd);
-  transition:width .42s cubic-bezier(.2,.8,.2,1)
-}
-.hudMessage{
-  margin-top:4px;font-size:10.5px;font-weight:850;color:#8b7f77;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
-}
-@media(max-width:420px){
-  .stickyHud{
-    top:calc(env(safe-area-inset-top) + 4px);
-    margin:9px 0 11px;padding:9px 10px;border-radius:16px
-  }
-  .hudIcon{width:34px;height:34px;font-size:19px}
-  .hudMessage{font-size:10px}
-}
-
-
-/* 關閉舊版浮動 miniQuest 規則，V3 由 stickyHud 接管 */
-.stickyHud#miniQuest{opacity:1 !important;transform:none !important;pointer-events:auto !important}
-
-
-/* ===== V4：分類、放大圖標、成就感提升 ===== */
-.groupTitle{
-  display:flex;align-items:center;gap:10px;
-  margin:10px 4px 2px;padding:0 2px;
-  font-size:13px;font-weight:950;color:#7a6c63;letter-spacing:.02em
-}
-.groupIcon{
-  width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
-  background:linear-gradient(145deg,#fff6ee,#ffe7d7);
-  box-shadow:0 4px 12px rgba(90,62,45,.06);
-  font-size:17px;flex:none
-}
-.mondayTag .groupIcon{background:linear-gradient(145deg,#fff7db,#fff0ba)}
-.row{gap:12px}
-.itemIcon{
-  width:42px;height:42px;border-radius:14px;flex:none;
-  display:grid;place-items:center;
-  background:linear-gradient(145deg,#fff7f1,#ffe9db);
-  box-shadow:0 6px 14px rgba(95,65,50,.06);
-  font-size:24px;line-height:1;
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-.row.done .itemIcon{
-  transform:scale(.96);
-  background:linear-gradient(145deg,#eef8f2,#dff0e7);
-}
-.row:active .itemIcon{transform:scale(1.06)}
-.name{font-size:16.5px}
-.sub{font-size:12.5px}
-.qty{box-shadow:inset 0 -1px 0 rgba(255,255,255,.55)}
-.stickyHud{background:linear-gradient(145deg,rgba(255,252,249,.97),rgba(255,248,243,.93))}
-.hudIcon{width:40px;height:40px;border-radius:14px;font-size:21px}
-.hudTrack{height:8px}
-.hudMessage{font-size:11px}
-.milestone{
-  position:relative;
-  background:linear-gradient(145deg,#fffdfb,#fff7f2);
-}
-.milestone::after{
-  content:"";
-  position:absolute;right:12px;top:50%;transform:translateY(-50%);
-  width:26px;height:26px;border-radius:50%;
-  background:radial-gradient(circle,#ffe7a6 0 25%, #fff5d4 40%, transparent 65%);
-  opacity:.9;
-}
-.achievement{position:relative;overflow:hidden}
-.unlockRibbon{
-  display:inline-flex;margin-bottom:10px;padding:7px 12px;border-radius:999px;
-  background:linear-gradient(135deg,#fff8dc,#ffe6a8);
-  border:1px solid #f1dd9f;color:#8f6f29;font-size:11px;font-weight:1000;letter-spacing:.08em
-}
-.badge{box-shadow:0 8px 18px rgba(170,132,34,.10)}
-.achievement::before,.achievement::after{
-  content:"✨";position:absolute;font-size:28px;opacity:.65;
-  animation:sparkleFloat 2.6s ease-in-out infinite alternate;
-}
-.achievement::before{left:18px;top:18px}
-.achievement::after{right:18px;bottom:18px;animation-delay:.7s}
-@keyframes sparkleFloat{to{transform:translateY(-6px) scale(1.06)}}
-@media(max-width:420px){
-  .itemIcon{width:40px;height:40px;font-size:23px}
-  .groupTitle{font-size:12.5px}
-  .hudIcon{width:38px;height:38px}
-}
-
-
-/* ===== V5：文字修正＋設計感插圖強化 ===== */
-.hero{
-  padding-right:180px;
-  min-height:222px;
-}
-.heroArt{
-  position:absolute;
-  right:14px;
-  top:16px;
-  width:148px;
-  height:168px;
-  pointer-events:none;
-}
-.artBlob{
-  position:absolute;border-radius:50%;
-  filter:blur(2px);
-}
-.artBlob1{
-  width:118px;height:118px;right:4px;top:6px;
-  background:radial-gradient(circle,#ffe2d1 0 38%, #fff3ea 62%, transparent 78%);
-}
-.artBlob2{
-  width:102px;height:102px;right:18px;bottom:0;
-  background:radial-gradient(circle,#dff1e8 0 40%, #f0faf5 64%, transparent 80%);
-}
-.artBadge{
-  position:absolute;display:grid;place-items:center;border-radius:18px;
-  background:rgba(255,255,255,.88);
-  border:1px solid rgba(238,225,217,.92);
-  box-shadow:0 10px 24px rgba(88,62,48,.10);
-  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
-}
-.artMain{
-  width:68px;height:68px;right:46px;top:26px;font-size:34px;
-  transform:rotate(-6deg);
-}
-.artA{
-  width:42px;height:42px;right:98px;top:86px;font-size:22px;
-  transform:rotate(-10deg);
-}
-.artB{
-  width:46px;height:46px;right:20px;top:88px;font-size:24px;
-  transform:rotate(10deg);
-}
-.artC{
-  width:38px;height:38px;right:63px;top:113px;font-size:20px;
-  transform:rotate(8deg);
-}
-.artSpark{
-  position:absolute;
-  color:#f0ba63;font-size:18px;font-weight:1000;
-  text-shadow:0 2px 7px rgba(240,186,99,.32);
-  animation:sparkTwinkle 1.8s ease-in-out infinite alternate;
-}
-.artSpark.s1{right:113px;top:18px}
-.artSpark.s2{right:10px;top:48px;animation-delay:.7s}
-@keyframes sparkTwinkle{to{transform:translateY(-4px) scale(1.12);opacity:.78}}
-
-.topline strong{letter-spacing:.01em}
-.row{
-  overflow:hidden;
-}
-.row::after{
-  content:"";
-  position:absolute;
-  right:-26px;top:50%;transform:translateY(-50%);
-  width:84px;height:84px;border-radius:50%;
-  background:radial-gradient(circle, rgba(255,237,223,.85) 0 22%, rgba(255,246,240,.4) 42%, transparent 70%);
-  z-index:0;
-}
-.row > *{position:relative;z-index:1}
-.itemIcon{
-  width:46px;height:46px;border-radius:15px;font-size:25px;
-}
-.qty{
-  min-width:58px;text-align:center;
-}
 @media(max-width:560px){
-  .hero{padding-right:126px;min-height:210px}
-  .heroArt{right:10px;top:18px;width:104px;height:150px}
-  .artBlob1{width:88px;height:88px;right:0;top:10px}
-  .artBlob2{width:78px;height:78px;right:10px;bottom:12px}
-  .artMain{width:52px;height:52px;right:28px;top:24px;font-size:28px}
-  .artA{width:34px;height:34px;right:68px;top:72px;font-size:17px}
-  .artB{width:36px;height:36px;right:4px;top:76px;font-size:18px}
-  .artC{width:31px;height:31px;right:38px;top:99px;font-size:16px}
-  .artSpark.s1{right:76px;top:10px}
-  .artSpark.s2{right:1px;top:36px}
+ .hero{padding-right:104px;min-height:198px}
+ .badgeGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media(max-width:420px){
-  .hero{padding-right:104px;min-height:198px}
-  .itemIcon{width:42px;height:42px;font-size:23px}
-  .qty{min-width:52px}
+ main{padding:14px 10px 40px}
+ .hero{padding:18px 98px 16px 16px;border-radius:24px}
+ h1{font-size:23px}
+ .itemIcon{width:42px;height:42px;font-size:23px}
+ .qty{min-width:52px}
+ .stickyHud{padding:9px 10px;border-radius:16px}
+ .badgeWall{padding:13px 11px}
 }
-
-
-/* ===== V6：修正新增項目＋完成徽章＋主題切換 ===== */
-.heroControls{
-  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
-  margin-top:12px;
-}
-.versionTag{
-  padding:6px 10px;border-radius:999px;
-  background:#fff4ec;border:1px solid #f1ddd1;color:#b26f5d;
-  font-size:11px;font-weight:1000;letter-spacing:.08em
-}
-.themeToggle{
-  display:inline-flex;gap:4px;padding:4px;border-radius:999px;
-  background:#fff;border:1px solid #eddcd1;box-shadow:0 4px 10px rgba(90,62,45,.06)
-}
-.themeBtn{
-  border:0;background:transparent;color:#8a7a71;
-  font:inherit;font-size:12px;font-weight:900;padding:7px 12px;border-radius:999px;
-}
-.themeBtn.active{
-  background:linear-gradient(135deg,#ffe9dc,#fff3e9);
-  color:#9a5f4f;
-}
-.badgeWall{
-  margin-top:16px;padding:16px 14px;border-radius:22px;
-  background:linear-gradient(145deg,#fffefc,#fff8f1);
-  border:1px solid #f0e3d9;box-shadow:0 10px 26px rgba(88,62,48,.06);
-}
-.badgeTitle{
-  font-size:14px;font-weight:1000;color:#7b6b62;margin-bottom:10px
-}
-.badgeGrid{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px
-}
-.milestoneBadge{
-  display:flex;align-items:center;gap:10px;
-  border-radius:18px;padding:10px 11px;border:1px solid #efe6df;
-  background:#fff;opacity:.48;transform:scale(.98);
-  transition:.24s ease;
-}
-.milestoneBadge.unlocked{
-  opacity:1;transform:scale(1);
-  background:linear-gradient(145deg,#fffdf4,#fff7de);
-  border-color:#f0dda1;box-shadow:0 10px 20px rgba(206,168,73,.10);
-}
-.badgeMedal{
-  width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
-  background:linear-gradient(145deg,#fff7e0,#ffefbf);
-  font-size:24px;flex:none
-}
-.badgeMeta strong{display:block;font-size:14px;line-height:1.1}
-.badgeMeta span{display:block;font-size:11px;color:#8c7d74;margin-top:3px}
-.badgeToast{
-  margin-top:10px;padding:10px 12px;border-radius:14px;
-  background:#fff7dd;border:1px solid #f2de9b;color:#8a6e2d;
-  font-size:12px;font-weight:900
-}
-body.theme-cute{
-  background:
-    radial-gradient(circle at 10% 0%,#ffdfe8 0 8%,transparent 28%),
-    radial-gradient(circle at 100% 14%,#dff4ee 0 10%,transparent 28%),
-    linear-gradient(160deg,#fff9fb,#fffdfb 54%,#f6fbfd);
-}
-body.theme-cute .hero{
-  background:linear-gradient(145deg,#fffefc,#fff6fb);
-}
-body.theme-cute .groupIcon,
-body.theme-cute .itemIcon{
-  background:linear-gradient(145deg,#fff8fb,#ffeef6);
-}
-body.theme-cute .artMain{background:rgba(255,248,252,.92)}
-body.theme-cute .row::after{
-  background:radial-gradient(circle, rgba(255,230,240,.82) 0 22%, rgba(255,246,250,.36) 42%, transparent 70%);
-}
-body.theme-cute .badgeWall{
-  background:linear-gradient(145deg,#fffefd,#fff7fb);
-}
-@media(max-width:520px){
-  .badgeGrid{grid-template-columns:1fr}
-}
-
 </style>
 </head>
 <body>
-
-
 <div class="confetti" id="confetti"></div>
+<div class="fxLayer" id="fxLayer"></div>
+<div class="comboFx" id="comboFx"></div>
+
 <main>
  <section class="hero" id="hero">
   <div class="kicker">DAYCARE QUEST</div>
-  <h1>寶寶托嬰準備任務 🐰</h1>
+  <h1>寶寶托嬰準備任務</h1>
   <div class="date" id="dateText"></div>
   <div class="streak">🔥 <span id="streakText">今天也來完成任務！</span></div>
+
   <div class="heroControls">
-    <div class="versionTag">V6</div>
+    <div class="versionTag">V7</div>
     <div class="themeToggle" id="themeToggle" role="group" aria-label="主題切換">
-      <button type="button" class="themeBtn active" data-theme="default">標準</button>
-      <button type="button" class="themeBtn" data-theme="cute">可愛插畫</button>
+      <button type="button" class="themeBtn" data-theme="default">標準</button>
+      <button type="button" class="themeBtn active" data-theme="cute">可愛插畫</button>
     </div>
   </div>
+
   <div class="progressWrap">
    <div class="progressTop"><span>今日任務進度</span><span class="pct" id="pct">0%</span></div>
    <div class="track"><div class="fill" id="fill"></div></div>
   </div>
   <div class="milestone" id="milestone"><span>🌱</span><span>準備開始，今天也要順順利利！</span></div>
+
   <div class="heroArt" aria-hidden="true">
    <div class="artBlob artBlob1"></div>
    <div class="artBlob artBlob2"></div>
@@ -502,7 +340,6 @@ body.theme-cute .badgeWall{
    <div class="artSpark s2">✦</div>
   </div>
  </section>
-
 
  <div class="stickyHud" id="miniQuest">
   <div class="hudIcon" id="miniIcon">🐰</div>
@@ -516,11 +353,35 @@ body.theme-cute .badgeWall{
   </div>
  </div>
 
+ <section class="badgeWall" id="badgeWall">
+   <div class="badgeTitle">完成徽章進度</div>
+   <div class="badgeGrid">
+     <div class="milestoneBadge" data-threshold="25">
+       <div class="badgeCircle">25%</div>
+       <div class="badgeLabel">熱身啟動</div>
+       <div class="badgeSub">完成四分之一</div>
+     </div>
+     <div class="milestoneBadge" data-threshold="50">
+       <div class="badgeCircle">50%</div>
+       <div class="badgeLabel">進度過半</div>
+       <div class="badgeSub">保持節奏</div>
+     </div>
+     <div class="milestoneBadge" data-threshold="75">
+       <div class="badgeCircle">75%</div>
+       <div class="badgeLabel">衝刺階段</div>
+       <div class="badgeSub">快收工了</div>
+     </div>
+     <div class="milestoneBadge" data-threshold="100">
+       <div class="badgeCircle">100%</div>
+       <div class="badgeLabel">任務完成</div>
+       <div class="badgeSub">今日 CLEAR</div>
+     </div>
+   </div>
+   <div class="badgeToast" id="badgeToast">尚未解鎖徽章，先完成第一項吧！</div>
+ </section>
+
  <div class="topline"><strong>今日任務清單</strong><span class="count" id="count"></span></div>
 
- 
- 
- 
  <section class="list">
   <div class="groupTitle"><span class="groupIcon">🧃</span><span>安撫・飲水用品</span></div>
   <label class="row"><input type="checkbox" data-id="pacifier"><span class="itemIcon">🍼</span><span class="info"><span class="name">奶嘴</span><span class="sub">外出安撫備用</span></span><span class="qty">× 2</span></label>
@@ -550,31 +411,19 @@ body.theme-cute .badgeWall{
   <label class="row monday" id="mondayRow"><input type="checkbox" data-id="sleep"><span class="itemIcon">🛏️</span><span class="info"><span class="name">棉被・枕頭・睡袋</span><span class="sub">週一限定</span></span><span class="qty">週一</span></label>
  </section>
 
-
-
-
- <section class="badgeWall" id="badgeWall">
-      <div class="badgeTitle">今日完成徽章</div>
-      <div class="badgeGrid">
-        <div class="milestoneBadge" data-threshold="25"><div class="badgeMedal">🥉</div><div class="badgeMeta"><strong>25%</strong><span>熱身啟動</span></div></div>
-        <div class="milestoneBadge" data-threshold="50"><div class="badgeMedal">🥈</div><div class="badgeMeta"><strong>50%</strong><span>進度過半</span></div></div>
-        <div class="milestoneBadge" data-threshold="75"><div class="badgeMedal">🥇</div><div class="badgeMeta"><strong>75%</strong><span>衝刺階段</span></div></div>
-        <div class="milestoneBadge" data-threshold="100"><div class="badgeMedal">🏆</div><div class="badgeMeta"><strong>100%</strong><span>任務完成</span></div></div>
-      </div>
-      <div class="badgeToast" id="badgeToast">尚未解鎖徽章，先完成第一項吧！</div>
-    </section>
-    <section class="achievement" id="achievement"><div class="unlockRibbon">ACHIEVEMENT UNLOCKED</div>
-  <div class="trophy">🏆</div>
+ <section class="achievement" id="achievement">
+  <div class="unlockRibbon">ACHIEVEMENT UNLOCKED</div>
+  <div class="achievementSeal">CLEAR</div>
   <h2>今日托嬰任務完成！</h2>
   <p>所有用品都已確認，放心出門吧。<br>今天準備得非常完整 ✨</p>
-  <span class="badge">⭐ DAILY QUEST CLEAR</span>
+  <span class="badge">DAILY QUEST CLEAR</span>
  </section>
 
  <div class="actions"><button id="reset">重新勾選</button><button id="all">一鍵完成</button></div>
 
  <div class="installtip" id="installTip">
   📲 <b>安裝到 iPhone 主畫面：</b><br>
-  用 Safari 開啟這個網站 → 點下方「分享」→ 選「加入主畫面」→「加入」。之後就能像 App 一樣從桌面直接開啟。若仍看到舊版，請關閉主畫面 App 後重開，必要時刪除後重新加入主畫面。
+  用 Safari 開啟這個網站 → 點下方「分享」→ 選「加入主畫面」→「加入」。若仍看到舊版，請關閉主畫面 App 後重開，必要時刪除後重新加入主畫面。
  </div>
 </main>
 
@@ -590,25 +439,37 @@ body.theme-cute .badgeWall{
 
  const boxes=[...document.querySelectorAll('input[type="checkbox"]')].filter(x=>getComputedStyle(x.closest('.row')).display!=="none");
  const key=`baby-daycare-${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
+ const themeKey='baby-daycare-theme';
  let celebrated=false;
+ let comboCount=0;
+ let comboTimer=null;
  try{
   const state=JSON.parse(localStorage.getItem(key)||"{}");
   boxes.forEach(b=>b.checked=!!state[b.dataset.id]);
  }catch(e){}
 
+ const savedTheme = localStorage.getItem(themeKey) || "cute";
+ document.body.classList.toggle("theme-default", savedTheme==="default");
+ const themeButtons=[...document.querySelectorAll(".themeBtn")];
+ themeButtons.forEach(btn=>btn.classList.toggle("active", btn.dataset.theme===savedTheme));
+ themeButtons.forEach(btn=>btn.addEventListener("click", ()=>{
+   const t=btn.dataset.theme;
+   localStorage.setItem(themeKey, t);
+   document.body.classList.toggle("theme-default", t==="default");
+   themeButtons.forEach(b=>b.classList.toggle("active", b===btn));
+ }));
+
  const fill=document.getElementById("fill"), pct=document.getElementById("pct"),
        count=document.getElementById("count"), milestone=document.getElementById("milestone"),
        achievement=document.getElementById("achievement"), confetti=document.getElementById("confetti"),
-       hero=document.getElementById("hero"), miniQuest=document.getElementById("miniQuest"),
-       miniPct=document.getElementById("miniPct"), miniFill=document.getElementById("miniFill"),
-       miniMessage=document.getElementById("miniMessage"), miniIcon=document.getElementById("miniIcon"),
-       miniTitle=document.getElementById("miniTitle"),
-       badgeToast=document.getElementById("badgeToast"),
-       badgeNodes=[...document.querySelectorAll(".milestoneBadge")],
-       themeButtons=[...document.querySelectorAll(".themeBtn")];
+       miniQuest=document.getElementById("miniQuest"), miniPct=document.getElementById("miniPct"),
+       miniFill=document.getElementById("miniFill"), miniMessage=document.getElementById("miniMessage"),
+       miniIcon=document.getElementById("miniIcon"), miniTitle=document.getElementById("miniTitle"),
+       badgeToast=document.getElementById("badgeToast"), badgeNodes=[...document.querySelectorAll(".milestoneBadge")],
+       fxLayer=document.getElementById("fxLayer"), comboFx=document.getElementById("comboFx");
 
  function save(){
-  try{const o={};boxes.forEach(b=>o[b.dataset.id]=b.checked);localStorage.setItem(key,JSON.stringify(o))}catch(e){}
+  try{const o={}; boxes.forEach(b=>o[b.dataset.id]=b.checked); localStorage.setItem(key, JSON.stringify(o));}catch(e){}
  }
  function message(p){
   if(p===100)return["🏆","全部完成！今日任務 CLEAR，成就達成！"];
@@ -619,10 +480,10 @@ body.theme-cute .badgeWall{
   return["🌱","準備開始，今天也要順順利利！"];
  }
  function badgeMessage(p){
-  if(p>=100) return "🏆 已解鎖 100% 徽章：任務完成";
-  if(p>=75) return "🥇 已解鎖 75% 徽章：衝刺階段";
-  if(p>=50) return "🥈 已解鎖 50% 徽章：進度過半";
-  if(p>=25) return "🥉 已解鎖 25% 徽章：熱身啟動";
+  if(p>=100) return "已解鎖 100% 徽章：任務完成";
+  if(p>=75) return "已解鎖 75% 徽章：衝刺階段";
+  if(p>=50) return "已解鎖 50% 徽章：進度過半";
+  if(p>=25) return "已解鎖 25% 徽章：熱身啟動";
   return "尚未解鎖徽章，先完成第一項吧！";
  }
  function burst(){
@@ -637,42 +498,85 @@ body.theme-cute .badgeWall{
   }
   setTimeout(()=>confetti.innerHTML="",4300);
  }
+ function spawnFloat(el, text){
+  const r=el.getBoundingClientRect();
+  const n=document.createElement("div");
+  n.className="floatText";
+  n.textContent=text;
+  n.style.left=(r.left + r.width*0.62) + "px";
+  n.style.top=(r.top + 8) + "px";
+  fxLayer.appendChild(n);
+  setTimeout(()=>n.remove(),980);
+ }
+ function showCombo(count){
+  if(count < 2) return;
+  comboFx.innerHTML = `COMBO x${count}<small>連續完成</small>`;
+  comboFx.classList.remove("show"); void comboFx.offsetWidth; comboFx.classList.add("show");
+ }
+ function bumpCombo(){
+  comboCount += 1;
+  clearTimeout(comboTimer);
+  comboTimer = setTimeout(()=>{ comboCount = 0; }, 3200);
+  showCombo(comboCount);
+ }
+ function resetCombo(){
+  comboCount = 0;
+  clearTimeout(comboTimer);
+ }
  function update(){
   let done=0;
-  boxes.forEach(b=>{b.closest(".row").classList.toggle("done",b.checked);if(b.checked)done++});
+  boxes.forEach(b=>{b.closest(".row").classList.toggle("done", b.checked); if(b.checked)done++});
   const total=boxes.length,p=Math.round(done/total*100),m=message(p);
-  fill.style.width=p+"%";pct.textContent=p+"%";count.textContent=`${done} / ${total} 已完成`;
-  milestone.innerHTML=`<span>${m[0]}</span><span>${m[1]}</span>`;
-  milestone.classList.remove("pop");void milestone.offsetWidth;milestone.classList.add("pop");
 
-  // 同步上方迷你任務列
+  fill.style.width=p+"%"; pct.textContent=p+"%"; count.textContent=`${done} / ${total} 已完成`;
+  milestone.innerHTML=`<span>${m[0]}</span><span>${m[1]}</span>`;
+  milestone.classList.remove("pop"); void milestone.offsetWidth; milestone.classList.add("pop");
+
   miniPct.textContent=p+"%";
   miniFill.style.width=p+"%";
   miniMessage.textContent=m[1];
-  miniQuest.classList.toggle("complete",done===total);
+  miniQuest.classList.toggle("complete", done===total);
   miniIcon.textContent=done===total ? "🏆" : "🐰";
   miniTitle.textContent=done===total ? "今日任務完成！" : "寶寶托嬰準備任務";
 
   badgeNodes.forEach(node=>{
-    const threshold = Number(node.dataset.threshold || 0);
+    const threshold=Number(node.dataset.threshold || 0);
     node.classList.toggle("unlocked", p >= threshold);
   });
   badgeToast.textContent = badgeMessage(p);
 
-  achievement.classList.toggle("show",done===total);
-  if(done===total&&!celebrated){celebrated=true;burst();if(navigator.vibrate)navigator.vibrate([40,40,70])}
-  if(done<total)celebrated=false;
+  achievement.classList.toggle("show", done===total);
+  if(done===total && !celebrated){celebrated=true; burst(); if(navigator.vibrate)navigator.vibrate([40,40,70])}
+  if(done<total) celebrated=false;
   save();
  }
- boxes.forEach(b=>b.addEventListener("change",function(){
-  if(this.checked){const r=this.closest(".row");r.classList.remove("justdone");void r.offsetWidth;r.classList.add("justdone")}
-  update();
+
+ boxes.forEach(b=>b.addEventListener("change", function(){
+   const row=this.closest(".row");
+   if(this.checked){
+     row.classList.remove("justdone"); void row.offsetWidth; row.classList.add("justdone");
+     spawnFloat(row, "完成 +1");
+     bumpCombo();
+   }else{
+     resetCombo();
+   }
+   update();
  }));
- document.getElementById("reset").onclick=()=>{boxes.forEach(b=>b.checked=false);celebrated=false;update()};
- document.getElementById("all").onclick=()=>{boxes.forEach(b=>b.checked=true);update()};
+
+ document.getElementById("reset").onclick=()=>{boxes.forEach(b=>b.checked=false); celebrated=false; resetCombo(); update();};
+ document.getElementById("all").onclick=()=>{
+   boxes.forEach((b, i)=>{
+     if(!b.checked){
+       b.checked=true;
+     }
+   });
+   comboCount = Math.max(comboCount, 2);
+   showCombo(comboCount);
+   update();
+ };
 
  const standalone=window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone;
- if(!standalone)document.getElementById("installTip").style.display="block";
+ if(!standalone) document.getElementById("installTip").style.display="block";
 
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
    navigator.serviceWorker.register("./sw.js").catch(()=>{});
