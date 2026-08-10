@@ -224,6 +224,72 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
 /* 關閉舊版浮動 miniQuest 規則，V3 由 stickyHud 接管 */
 .stickyHud#miniQuest{opacity:1 !important;transform:none !important;pointer-events:auto !important}
 
+
+/* ===== V4：分類、放大圖標、成就感提升 ===== */
+.groupTitle{
+  display:flex;align-items:center;gap:10px;
+  margin:10px 4px 2px;padding:0 2px;
+  font-size:13px;font-weight:950;color:#7a6c63;letter-spacing:.02em
+}
+.groupIcon{
+  width:30px;height:30px;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#fff6ee,#ffe7d7);
+  box-shadow:0 4px 12px rgba(90,62,45,.06);
+  font-size:17px;flex:none
+}
+.mondayTag .groupIcon{background:linear-gradient(145deg,#fff7db,#fff0ba)}
+.row{gap:12px}
+.itemIcon{
+  width:42px;height:42px;border-radius:14px;flex:none;
+  display:grid;place-items:center;
+  background:linear-gradient(145deg,#fff7f1,#ffe9db);
+  box-shadow:0 6px 14px rgba(95,65,50,.06);
+  font-size:24px;line-height:1;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.row.done .itemIcon{
+  transform:scale(.96);
+  background:linear-gradient(145deg,#eef8f2,#dff0e7);
+}
+.row:active .itemIcon{transform:scale(1.06)}
+.name{font-size:16.5px}
+.sub{font-size:12.5px}
+.qty{box-shadow:inset 0 -1px 0 rgba(255,255,255,.55)}
+.stickyHud{background:linear-gradient(145deg,rgba(255,252,249,.97),rgba(255,248,243,.93))}
+.hudIcon{width:40px;height:40px;border-radius:14px;font-size:21px}
+.hudTrack{height:8px}
+.hudMessage{font-size:11px}
+.milestone{
+  position:relative;
+  background:linear-gradient(145deg,#fffdfb,#fff7f2);
+}
+.milestone::after{
+  content:"";
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  width:26px;height:26px;border-radius:50%;
+  background:radial-gradient(circle,#ffe7a6 0 25%, #fff5d4 40%, transparent 65%);
+  opacity:.9;
+}
+.achievement{position:relative;overflow:hidden}
+.unlockRibbon{
+  display:inline-flex;margin-bottom:10px;padding:7px 12px;border-radius:999px;
+  background:linear-gradient(135deg,#fff8dc,#ffe6a8);
+  border:1px solid #f1dd9f;color:#8f6f29;font-size:11px;font-weight:1000;letter-spacing:.08em
+}
+.badge{box-shadow:0 8px 18px rgba(170,132,34,.10)}
+.achievement::before,.achievement::after{
+  content:"✨";position:absolute;font-size:28px;opacity:.65;
+  animation:sparkleFloat 2.6s ease-in-out infinite alternate;
+}
+.achievement::before{left:18px;top:18px}
+.achievement::after{right:18px;bottom:18px;animation-delay:.7s}
+@keyframes sparkleFloat{to{transform:translateY(-6px) scale(1.06)}}
+@media(max-width:420px){
+  .itemIcon{width:40px;height:40px;font-size:23px}
+  .groupTitle{font-size:12.5px}
+  .hudIcon{width:38px;height:38px}
+}
+
 </style>
 </head>
 <body>
@@ -256,22 +322,38 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
   </div>
  </div>
 
- <div class="topline"><strong>今天要帶的物品</strong><span class="count" id="count"></span></div>
+ <div class="topline"><strong>今日任務清單</strong><span class="count" id="count"></span></div>
 
+ 
  <section class="list">
-  <label class="row"><input type="checkbox" data-id="pacifier"><span class="info"><span class="name">🍼 奶嘴</span><span class="sub">外出安撫備用</span></span><span class="qty">× 2</span></label>
-  <label class="row"><input type="checkbox" data-id="bottle"><span class="info"><span class="name">🍼 奶瓶</span><span class="sub">確認已清潔</span></span><span class="qty">× 2</span></label>
-  <label class="row"><input type="checkbox" data-id="water"><span class="info"><span class="name">💧 水壺</span><span class="sub">裝好飲用水</span></span><span class="qty">× 1</span></label>
-  <label class="row"><input type="checkbox" data-id="bib"><span class="info"><span class="name">🧸 口水巾</span><span class="sub">乾淨替換用</span></span><span class="qty">× 2</span></label>
-  <label class="row"><input type="checkbox" data-id="diaper"><span class="info"><span class="name">☁️ 尿布</span><span class="sub">每日消耗備品</span></span><span class="qty">× 5</span></label>
-  <label class="row"><input type="checkbox" data-id="clothes"><span class="info"><span class="name">👕 衣物</span><span class="sub">一套完整替換衣物</span></span><span class="qty">× 1</span></label>
-  <label class="row"><input type="checkbox" data-id="cutlery"><span class="info"><span class="name">🥄 餐具組</span><span class="sub">用餐用品</span></span><span class="qty">× 2</span></label>
-  <label class="row"><input type="checkbox" data-id="bowl"><span class="info"><span class="name">🥣 餐碗</span><span class="sub">確認乾淨完整</span></span><span class="qty">× 2</span></label>
-  <label class="row"><input type="checkbox" data-id="contact-book"><span class="info"><span class="name">📒 聯絡簿</span><span class="sub">每日必帶｜確認已放入</span></span><span class="qty">每日</span></label>
-  <label class="row monday" id="mondayRow"><input type="checkbox" data-id="sleep"><span class="info"><span class="name">🌙 棉被・枕頭・睡袋</span><span class="sub">週一限定</span></span><span class="qty">週一</span></label>
+  <div class="groupTitle"><span class="groupIcon">🧃</span><span>安撫・飲水用品</span></div>
+  <label class="row"><input type="checkbox" data-id="pacifier"><span class="itemIcon">🍼</span><span class="info"><span class="name">奶嘴</span><span class="sub">外出安撫備用</span></span><span class="qty">× 2</span></label>
+  <label class="row"><input type="checkbox" data-id="bottle"><span class="itemIcon">🍼</span><span class="info"><span class="name">奶瓶</span><span class="sub">確認已清潔</span></span><span class="qty">× 2</span></label>
+  <label class="row"><input type="checkbox" data-id="water"><span class="itemIcon">💧</span><span class="info"><span class="name">水壺</span><span class="sub">裝好飲用水</span></span><span class="qty">× 1</span></label>
+
+  <div class="groupTitle"><span class="groupIcon">🍽️</span><span>用餐用品</span></div>
+  <label class="row"><input type="checkbox" data-id="cutlery"><span class="itemIcon">🥄</span><span class="info"><span class="name">餐具組</span><span class="sub">用餐用品</span></span><span class="qty">× 2</span></label>
+  <label class="row"><input type="checkbox" data-id="bowl"><span class="itemIcon">🥣</span><span class="info"><span class="name">餐碗</span><span class="sub">確認乾淨完整</span></span><span class="qty">× 2</span></label>
+
+  <div class="groupTitle"><span class="groupIcon">🧼</span><span>清潔・照護用品</span></div>
+  <label class="row"><input type="checkbox" data-id="bib"><span class="itemIcon">🧸</span><span class="info"><span class="name">口水巾</span><span class="sub">乾淨替換用</span></span><span class="qty">× 2</span></label>
+  <label class="row"><input type="checkbox" data-id="waterproof-bib"><span class="itemIcon">🛡️</span><span class="info"><span class="name">防水口水巾</span><span class="sub">避免衣物沾濕</span></span><span class="qty">× 1</span></label>
+  <label class="row"><input type="checkbox" data-id="diaper"><span class="itemIcon">☁️</span><span class="info"><span class="name">尿布</span><span class="sub">每日消耗備品</span></span><span class="qty">× 5</span></label>
+  <label class="row"><input type="checkbox" data-id="butt-towel"><span class="itemIcon">🧻</span><span class="info"><span class="name">擦屁屁專屬毛巾</span><span class="sub">清潔專用，別跟別的毛巾混住</span></span><span class="qty">× 1</span></label>
+
+  <div class="groupTitle"><span class="groupIcon">🧍</span><span>個人物品</span></div>
+  <label class="row"><input type="checkbox" data-id="clothes"><span class="itemIcon">👕</span><span class="info"><span class="name">衣物</span><span class="sub">一套完整替換衣物</span></span><span class="qty">× 1</span></label>
+  <label class="row"><input type="checkbox" data-id="toothbrush"><span class="itemIcon">🪥</span><span class="info"><span class="name">牙刷</span><span class="sub">每日清潔用品</span></span><span class="qty">× 1</span></label>
+
+  <div class="groupTitle"><span class="groupIcon">📝</span><span>每日文件</span></div>
+  <label class="row"><input type="checkbox" data-id="contact-book"><span class="itemIcon">📒</span><span class="info"><span class="name">聯絡簿</span><span class="sub">每日必帶｜確認已放入</span></span><span class="qty">每日</span></label>
+
+  <div class="groupTitle mondayTag"><span class="groupIcon">🌙</span><span>週一限定</span></div>
+  <label class="row monday" id="mondayRow"><input type="checkbox" data-id="sleep"><span class="itemIcon">🛏️</span><span class="info"><span class="name">棉被・枕頭・睡袋</span><span class="sub">週一限定</span></span><span class="qty">週一</span></label>
  </section>
 
- <section class="achievement" id="achievement">
+
+ <section class="achievement" id="achievement"><div class="unlockRibbon">ACHIEVEMENT UNLOCKED</div>
   <div class="trophy">🏆</div>
   <h2>今日托嬰任務完成！</h2>
   <p>所有用品都已確認，放心出門吧。<br>今天準備得非常完整 ✨</p>
@@ -293,7 +375,8 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
  document.getElementById("dateText").textContent=`${now.getFullYear()} 年 ${now.getMonth()+1} 月 ${now.getDate()} 日・${wd[day]}`;
 
  const monday=document.getElementById("mondayRow");
- if(day!==1)monday.style.display="none";
+ const mondayTag=document.querySelector(".mondayTag");
+ if(day!==1){monday.style.display="none"; if(mondayTag) mondayTag.style.display="none";}
 
  const boxes=[...document.querySelectorAll('input[type="checkbox"]')].filter(x=>getComputedStyle(x.closest('.row')).display!=="none");
  const key=`baby-daycare-${now.getFullYear()}-${now.getMonth()+1}-${now.getDate()}`;
@@ -315,10 +398,11 @@ h1{font-size:25px;line-height:1.23;margin:0 56px 6px 0}
   try{const o={};boxes.forEach(b=>o[b.dataset.id]=b.checked);localStorage.setItem(key,JSON.stringify(o))}catch(e){}
  }
  function message(p){
-  if(p===100)return["🏆","全部完成！今日任務 CLEAR！"];
-  if(p>=75)return["🚀","最後衝刺！只差一點點。"];
-  if(p>=50)return["✨","過半啦！準備節奏非常順。"];
-  if(p>=25)return["💪","進度開始加速，繼續保持！"];
+  if(p===100)return["🏆","全部完成！今日任務 CLEAR，成就達成！"];
+  if(p>=90)return["👑","幾乎全滿，只差最後一步就完美收工！"];
+  if(p>=75)return["🚀","最後衝刺！快要把今天任務全數清空了。"];
+  if(p>=50)return["✨","過半啦！今天節奏很穩，繼續推進。"];
+  if(p>=25)return["💪","進度開始加速，今天狀態不錯喔！"];
   if(p>0)return["🌟","第一項完成，任務正式啟動！"];
   return["🌱","準備開始，今天也要順順利利！"];
  }
