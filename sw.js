@@ -1,7 +1,5 @@
-const CACHE = "daycare-pwa-v8-combo-hit";
-const ASSETS = [
-  "./",
-  "./index.html",
+const CACHE = "daycare-pwa-v9-network-first";
+const STATIC_ASSETS = [
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon-512.png",
@@ -9,7 +7,7 @@ const ASSETS = [
 ];
 
 self.addEventListener("install", event => {
-  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)));
+  event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(STATIC_ASSETS)));
   self.skipWaiting();
 });
 
@@ -17,18 +15,39 @@ self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys => Promise.all(
       keys.filter(k => k !== CACHE).map(k => caches.delete(k))
-    ))
+    )).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
+
+  const req = event.request;
+  const url = new URL(req.url);
+  const isNavigation =
+    req.mode === "navigate" ||
+    url.pathname.endsWith("/") ||
+    url.pathname.endsWith("/index.html") ||
+    req.destination === "document";
+
+  if (isNavigation) {
+    // Network first: always prefer newest GitHub Pages HTML
+    event.respondWith(
+      fetch(req, { cache: "no-store" })
+        .then(response => response)
+        .catch(() => caches.match("./index.html").then(r => r || caches.match("./")))
+    );
+    return;
+  }
+
+  // Static assets can use cache-first
   event.respondWith(
-    caches.match(event.request).then(cached => cached || fetch(event.request).then(response => {
-      const copy = response.clone();
-      caches.open(CACHE).then(cache => cache.put(event.request, copy));
-      return response;
-    }).catch(() => caches.match("./index.html")))
+    caches.match(req).then(cached =>
+      cached || fetch(req).then(response => {
+        const copy = response.clone();
+        caches.open(CACHE).then(cache => cache.put(req, copy));
+        return response;
+      })
+    )
   );
 });

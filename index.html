@@ -4,13 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#fff6fb">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="托嬰準備">
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務 V8</title>
+<title>寶寶托嬰準備任務 V9</title>
 <style>
 :root{
  --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
@@ -388,6 +391,161 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  .stickyHud{padding:9px 10px;border-radius:16px}
  .badgeWall{padding:13px 11px}
 }
+
+/* ===== V9 強衝擊點擊特效 ===== */
+.row.impactHit{
+  animation:impactPunch .42s cubic-bezier(.17,.89,.3,1.32);
+  box-shadow:
+    0 12px 30px rgba(85,63,50,.08),
+    0 0 0 3px rgba(237,177,104,.10);
+}
+@keyframes impactPunch{
+  0%{transform:scale(1)}
+  18%{transform:scale(.965) rotate(-.35deg)}
+  42%{transform:scale(1.045) rotate(.25deg)}
+  70%{transform:scale(.995)}
+  100%{transform:scale(1)}
+}
+.row.impactHit::before{
+  content:"";
+  position:absolute;
+  left:50%;top:50%;
+  width:24px;height:24px;
+  border-radius:50%;
+  border:3px solid rgba(236,171,82,.78);
+  transform:translate(-50%,-50%) scale(.2);
+  z-index:5;
+  pointer-events:none;
+  animation:impactRing .52s ease-out forwards;
+}
+@keyframes impactRing{
+  0%{opacity:.95;transform:translate(-50%,-50%) scale(.2)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(6.5)}
+}
+
+.hitBurst{
+  position:fixed;
+  left:0;top:0;
+  width:120px;height:120px;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+}
+.hitBurst::before,
+.hitBurst::after{
+  content:"";
+  position:absolute;
+  inset:50%;
+  width:4px;height:48px;
+  border-radius:999px;
+  transform-origin:center 0;
+  background:linear-gradient(to bottom,#f0b657,transparent);
+}
+.hitBurst::before{transform:rotate(45deg) translateY(-4px)}
+.hitBurst::after{transform:rotate(-45deg) translateY(-4px)}
+.hitBurst i{
+  position:absolute;left:50%;top:50%;
+  width:4px;height:42px;border-radius:999px;
+  background:linear-gradient(to bottom,#ef947a,transparent);
+  transform-origin:center 0;
+}
+.hitBurst i:nth-child(1){transform:rotate(0deg) translateY(-4px)}
+.hitBurst i:nth-child(2){transform:rotate(90deg) translateY(-4px)}
+.hitBurst i:nth-child(3){transform:rotate(135deg) translateY(-4px)}
+.hitBurst i:nth-child(4){transform:rotate(270deg) translateY(-4px)}
+.hitBurst{
+  animation:burstFade .52s ease-out forwards;
+}
+@keyframes burstFade{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.45)}
+  22%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(1.28)}
+}
+
+/* 完成字樣：更像遊戲擊中提示 */
+.floatText{
+  min-width:116px !important;
+  padding:8px 14px 9px !important;
+  border-radius:16px !important;
+  background:linear-gradient(145deg,rgba(255,255,255,.98),rgba(255,245,236,.98)) !important;
+  border:1px solid rgba(236,193,168,.95) !important;
+  box-shadow:
+    0 14px 30px rgba(86,59,45,.16),
+    0 0 0 4px rgba(255,255,255,.38) !important;
+  animation:impactComplete .68s cubic-bezier(.15,.9,.2,1.2) forwards !important;
+}
+.floatText .completeWord{
+  display:block;
+  font-size:12px;
+  line-height:1;
+  letter-spacing:.18em;
+  color:#b57460;
+  font-weight:1000;
+}
+.floatText .plus{
+  display:block;
+  margin-top:2px;
+  font-size:28px !important;
+  line-height:.95;
+  font-weight:1000;
+  color:#8f4f3c !important;
+}
+@keyframes impactComplete{
+  0%{opacity:0;transform:translate(-50%,12px) scale(.48) rotate(-3deg)}
+  18%{opacity:1;transform:translate(-50%,-1px) scale(1.22) rotate(1deg)}
+  50%{opacity:1;transform:translate(-50%,-12px) scale(1.03)}
+  100%{opacity:0;transform:translate(-50%,-38px) scale(.92)}
+}
+
+/* Combo：數字絕對主角 */
+.comboHit{
+  min-width:150px !important;
+  padding:8px 15px 10px !important;
+  border-radius:20px !important;
+  background:
+    linear-gradient(145deg,rgba(255,250,226,.99),rgba(255,222,153,.99)) !important;
+  box-shadow:
+    0 16px 34px rgba(164,118,23,.22),
+    0 0 0 5px rgba(255,247,214,.55),
+    inset 0 1px 0 rgba(255,255,255,.95) !important;
+  animation:impactCombo .86s cubic-bezier(.13,.92,.2,1.2) forwards !important;
+}
+.comboWord{
+  font-size:12px !important;
+  letter-spacing:.20em !important;
+  margin-bottom:0 !important;
+}
+.comboCount{
+  margin-top:0;
+}
+.comboTimes{
+  font-size:26px !important;
+  transform:translateY(-5px) !important;
+  color:#b8790d !important;
+}
+.comboNumber{
+  font-size:58px !important;
+  line-height:.78 !important;
+  letter-spacing:-.06em !important;
+  color:#6d4300 !important;
+  text-shadow:
+    0 3px 0 rgba(255,255,255,.65),
+    0 7px 12px rgba(116,72,0,.14) !important;
+}
+.comboHit.high .comboNumber{
+  font-size:64px !important;
+  color:#a54b28 !important;
+}
+.comboHit.high{
+  background:linear-gradient(145deg,#fff0d0,#ffc97f) !important;
+}
+@keyframes impactCombo{
+  0%{opacity:0;transform:translate(-50%,8px) scale(.42) rotate(-5deg)}
+  18%{opacity:1;transform:translate(-50%,-2px) scale(1.28) rotate(1.5deg)}
+  42%{opacity:1;transform:translate(-50%,-12px) scale(1)}
+  72%{opacity:1;transform:translate(-50%,-18px) scale(1.03)}
+  100%{opacity:0;transform:translate(-50%,-44px) scale(.9)}
+}
+
 </style>
 </head>
 <body>
@@ -402,7 +560,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   <div class="streak">🔥 <span id="streakText">今天也來完成任務！</span></div>
 
   <div class="heroControls">
-    <div class="versionTag">V8</div>
+    <div class="versionTag">V9</div>
     <div class="themeToggle" id="themeToggle" role="group" aria-label="主題切換">
       <button type="button" class="themeBtn" data-theme="default">標準</button>
       <button type="button" class="themeBtn active" data-theme="cute">可愛插畫</button>
@@ -596,11 +754,21 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   const pt=effectPoint(el);
   const n=document.createElement("div");
   n.className="floatText";
-  n.innerHTML='完成 <span class="plus">+1</span>';
+  n.innerHTML='<span class="completeWord">COMPLETE</span><span class="plus">+1</span>';
   n.style.left=pt.x+"px";
   n.style.top=pt.y+"px";
   fxLayer.appendChild(n);
-  setTimeout(()=>n.remove(),700);
+  setTimeout(()=>n.remove(),760);
+ }
+ function spawnBurst(el){
+  const pt=effectPoint(el);
+  const b=document.createElement("div");
+  b.className="hitBurst";
+  b.style.left=pt.x+"px";
+  b.style.top=pt.y+"px";
+  b.innerHTML="<i></i><i></i><i></i><i></i>";
+  fxLayer.appendChild(b);
+  setTimeout(()=>b.remove(),580);
  }
  function showComboAt(el, count){
   if(count < 2) return;
@@ -656,19 +824,21 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  boxes.forEach(b=>b.addEventListener("change", function(){
    const row=this.closest(".row");
    if(this.checked){
-     row.classList.remove("justdone","hitFlash");
+     row.classList.remove("justdone","hitFlash","impactHit");
      void row.offsetWidth;
-     row.classList.add("justdone","hitFlash");
+     row.classList.add("justdone","hitFlash","impactHit");
 
      const currentCombo = bumpCombo();
 
-     // 先「完成 +1」，再於同一張卡片同一位置接著出 Combo
-     spawnFloat(row);
+     // 同一位置：爆點 -> COMPLETE +1 -> COMBO
+     spawnBurst(row);
+     setTimeout(()=>spawnFloat(row), 70);
      if(currentCombo >= 2){
-       setTimeout(()=>showComboAt(row, currentCombo), 360);
+       setTimeout(()=>showComboAt(row, currentCombo), 430);
      }
 
-     setTimeout(()=>row.classList.remove("hitFlash"),620);
+     setTimeout(()=>row.classList.remove("hitFlash","impactHit"),720);
+     if(navigator.vibrate) navigator.vibrate(22);
    }else{
      resetCombo();
    }
@@ -686,7 +856,10 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  if(!standalone) document.getElementById("installTip").style.display="block";
 
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
-   navigator.serviceWorker.register("./sw.js").catch(()=>{});
+   navigator.serviceWorker.getRegistrations()
+     .then(regs=>Promise.all(regs.map(r=>r.unregister())))
+     .then(()=>navigator.serviceWorker.register("./sw.js?v=9"))
+     .catch(()=>{});
  }
 
  update();
