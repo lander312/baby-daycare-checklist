@@ -13,7 +13,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務 V16</title>
+<title>寶寶托嬰準備任務 V17</title>
 <style>
 :root{
  --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
@@ -1288,6 +1288,142 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   .badgeTitle{padding-right:78px !important}
 }
 
+
+/* ===== V17：主卡右側大幅可愛插畫 ===== */
+.hero{
+  min-height:210px !important;
+  padding-right:238px !important;
+  overflow:hidden !important;
+}
+.heroArtV17{
+  position:absolute !important;
+  right:18px !important;
+  top:38px !important;
+  width:210px !important;
+  height:162px !important;
+  pointer-events:none;
+  opacity:1 !important;
+}
+.heroAura{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(2px);
+}
+.auraPeach{
+  width:142px;height:142px;
+  right:18px;top:0;
+  background:radial-gradient(circle,rgba(255,218,199,.86) 0 22%,rgba(255,238,229,.72) 46%,transparent 73%);
+}
+.auraMint{
+  width:132px;height:132px;
+  right:58px;top:34px;
+  background:radial-gradient(circle,rgba(205,239,226,.82) 0 24%,rgba(235,248,243,.68) 48%,transparent 74%);
+}
+
+.heroMainSticker{
+  position:absolute;
+  right:64px;
+  top:20px;
+  width:86px;
+  height:86px;
+  border-radius:27px;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.95);
+  border:1px solid rgba(236,221,214,.96);
+  box-shadow:0 16px 32px rgba(87,61,49,.13), inset 0 1px 0 rgba(255,255,255,.95);
+  transform:rotate(-5deg);
+  animation:v17MainFloat 3.2s ease-in-out infinite alternate;
+}
+.heroMainFace{
+  font-size:46px;
+  filter:drop-shadow(0 3px 5px rgba(90,64,54,.12));
+}
+@keyframes v17MainFloat{
+  to{transform:translateY(-5px) rotate(-2deg)}
+}
+
+.orbitSticker{
+  position:absolute;
+  display:grid;
+  place-items:center;
+  border-radius:18px;
+  background:rgba(255,255,255,.93);
+  border:1px solid rgba(236,221,214,.94);
+  box-shadow:0 11px 25px rgba(87,61,49,.10), inset 0 1px 0 rgba(255,255,255,.95);
+  animation:v17Orbit 2.8s ease-in-out infinite alternate;
+}
+.o1{width:46px;height:46px;right:146px;top:84px;font-size:24px;transform:rotate(-10deg)}
+.o2{width:48px;height:48px;right:10px;top:80px;font-size:25px;transform:rotate(9deg);animation-delay:.5s}
+.o3{width:44px;height:44px;right:64px;top:118px;font-size:22px;transform:rotate(7deg);animation-delay:.9s}
+.o4{width:36px;height:36px;right:155px;top:32px;font-size:18px;transform:rotate(-6deg);animation-delay:1.2s}
+.o5{width:34px;height:34px;right:20px;top:34px;font-size:18px;transform:rotate(8deg);animation-delay:1.5s}
+@keyframes v17Orbit{
+  to{translate:0 -4px}
+}
+
+.heroCloud{
+  position:absolute;
+  color:rgba(255,255,255,.88);
+  text-shadow:0 7px 18px rgba(127,107,98,.08);
+  font-size:30px;
+}
+.heroCloud.c1{right:128px;top:2px;transform:scale(.85)}
+.heroCloud.c2{right:0;top:126px;transform:scale(.68)}
+
+.heroTwinkle{
+  position:absolute;
+  color:#efbd62;
+  font-weight:1000;
+  text-shadow:0 3px 10px rgba(239,189,98,.26);
+  animation:v17Twinkle 1.8s ease-in-out infinite alternate;
+}
+.t1{right:174px;top:18px;font-size:17px}
+.t2{right:2px;top:16px;font-size:20px;animation-delay:.4s}
+.t3{right:34px;top:130px;font-size:14px;animation-delay:.8s}
+.t4{right:128px;top:138px;font-size:12px;animation-delay:1.1s}
+@keyframes v17Twinkle{
+  to{opacity:.55;transform:scale(1.22) rotate(8deg)}
+}
+
+/* 把右側插畫空間真正留給插畫，左側文字不壓進去 */
+.hero .kicker,
+.hero h1,
+.hero .date,
+.hero .streak,
+.hero .progressWrap{
+  max-width:100%;
+}
+
+@media(max-width:560px){
+  .hero{
+    padding-right:172px !important;
+    min-height:202px !important;
+  }
+  .heroArtV17{
+    right:8px !important;
+    top:38px !important;
+    width:158px !important;
+    height:150px !important;
+    transform:scale(.88);
+    transform-origin:top right;
+  }
+}
+@media(max-width:420px){
+  .hero{
+    padding-right:146px !important;
+    min-height:196px !important;
+  }
+  .heroArtV17{
+    right:2px !important;
+    top:42px !important;
+    width:144px !important;
+    height:142px !important;
+    transform:scale(.80);
+    transform-origin:top right;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1298,7 +1434,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
 
 <main>
  <section class="hero" id="hero">
-<div class="versionTag">V16</div>
+<div class="versionTag">V17</div>
   <div class="kicker">DAYCARE QUEST</div>
   <h1>寶寶托嬰準備任務</h1>
   <div class="date" id="dateText"></div>
@@ -1320,19 +1456,26 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
 </div>
 
 
-  <div class="heroArt" aria-hidden="true">
-   <div class="artBlob artBlob1"></div>
-   <div class="artBlob artBlob2"></div>
-   <div class="artBadge artMain">🐰</div>
-   <div class="artBadge artA">🍼</div>
-   <div class="artBadge artB">🧸</div>
-   <div class="artBadge artC">🧼</div>
-   <div class="artBadge artD">🎀</div>
-   <div class="artBadge artE">✨</div>
-   <div class="artBadge artF">🫧</div>
-   <div class="artSpark s1">✦</div>
-   <div class="artSpark s2">✦</div>
-   <div class="artSpark s3">✦</div>
+  <div class="heroArt heroArtV17" aria-hidden="true">
+    <div class="heroAura auraPeach"></div>
+    <div class="heroAura auraMint"></div>
+    <div class="heroCloud c1">☁</div>
+    <div class="heroCloud c2">☁</div>
+
+    <div class="heroMainSticker">
+      <div class="heroMainFace">🐰</div>
+    </div>
+
+    <div class="orbitSticker o1">🍼</div>
+    <div class="orbitSticker o2">🧸</div>
+    <div class="orbitSticker o3">🛡️</div>
+    <div class="orbitSticker o4">🫧</div>
+    <div class="orbitSticker o5">🎀</div>
+
+    <div class="heroTwinkle t1">✦</div>
+    <div class="heroTwinkle t2">✦</div>
+    <div class="heroTwinkle t3">✦</div>
+    <div class="heroTwinkle t4">✦</div>
   </div>
  </section>
 
@@ -1637,7 +1780,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
    navigator.serviceWorker.getRegistrations()
      .then(regs=>Promise.all(regs.map(r=>r.unregister())))
-     .then(()=>navigator.serviceWorker.register("./sw.js?v=16"))
+     .then(()=>navigator.serviceWorker.register("./sw.js?v=17"))
      .catch(()=>{});
  }
 
