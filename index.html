@@ -13,7 +13,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務 V17</title>
+<title>寶寶托嬰準備任務 V18</title>
 <style>
 :root{
  --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
@@ -1424,6 +1424,56 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   }
 }
 
+
+/* ===== V18：重置按鈕可見度修正 ===== */
+.heroActionsV14{
+  z-index: 20 !important;
+  right: 16px !important;
+  bottom: 14px !important;
+}
+.resetTodayBtn{
+  position: relative !important;
+  z-index: 21 !important;
+  width: 42px !important;
+  min-width: 42px !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  border-radius: 14px !important;
+  border: 1.5px solid #e2c4b7 !important;
+  background: rgba(255,255,255,.97) !important;
+  box-shadow: 0 10px 24px rgba(108,73,58,.12), inset 0 1px 0 rgba(255,255,255,.95) !important;
+  color: #a66452 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.resetTodayBtn .resetIcon{
+  display:block !important;
+  font-size: 21px !important;
+  line-height: 1 !important;
+  font-weight: 1000 !important;
+  color:#a66452 !important;
+}
+.resetTodayBtn:active{
+  transform:scale(.95) !important;
+  background:#fff6f1 !important;
+}
+@media(max-width:420px){
+  .heroActionsV14{
+    right: 12px !important;
+    bottom: 12px !important;
+  }
+  .resetTodayBtn{
+    width: 40px !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+  }
+  .resetTodayBtn .resetIcon{
+    font-size:20px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1434,7 +1484,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
 
 <main>
  <section class="hero" id="hero">
-<div class="versionTag">V17</div>
+<div class="versionTag">V18</div>
   <div class="kicker">DAYCARE QUEST</div>
   <h1>寶寶托嬰準備任務</h1>
   <div class="date" id="dateText"></div>
@@ -1780,7 +1830,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
    navigator.serviceWorker.getRegistrations()
      .then(regs=>Promise.all(regs.map(r=>r.unregister())))
-     .then(()=>navigator.serviceWorker.register("./sw.js?v=17"))
+     .then(()=>navigator.serviceWorker.register("./sw.js?v=18"))
      .catch(()=>{});
  }
 
