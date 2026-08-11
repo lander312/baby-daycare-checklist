@@ -13,7 +13,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務 V14</title>
+<title>寶寶托嬰準備任務 V15</title>
 <style>
 :root{
  --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
@@ -1037,16 +1037,120 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   .resetTodayBtn{min-height:36px;padding:7px 11px;font-size:12px}
 }
 
+
+/* ===== V15：手機更精簡、訊息整合、徽章跳閃 ===== */
+.heroControls{display:none !important}
+.milestone{display:none !important}
+.heroActionsV14{
+  position:absolute;
+  right:18px;
+  bottom:18px;
+  margin-top:0 !important;
+  z-index:6;
+}
+.resetTodayBtn{
+  min-width:38px !important;
+  width:38px;
+  min-height:38px !important;
+  padding:0 !important;
+  border-radius:12px !important;
+  justify-content:center;
+}
+.resetTodayBtn .resetIcon{
+  font-size:18px !important;
+}
+.resetTodayBtn span:not(.resetIcon){display:none !important}
+.streak{
+  margin-top:12px !important;
+  padding:8px 11px !important;
+  max-width:calc(100% - 72px);
+  line-height:1.35;
+}
+.hero{
+  min-height:194px !important;
+  padding-bottom:58px !important;
+}
+.stickyHud{
+  transition:opacity .24s ease, transform .24s ease;
+}
+.stickyHud.is-hidden{
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-10px);
+}
+.hudIcon{background:#eef8ea !important}
+.hudMessage{display:none !important}
+.hudBody{display:flex;flex-direction:column;justify-content:center}
+.hudTop{margin-bottom:4px}
+.hudTitle{font-size:12px !important}
+.hudTitle::before{content:"🌱 ";}
+.badgeWall{margin-top:12px !important}
+.badgeFlashDock{
+  position:fixed;
+  right:10px;
+  top:calc(env(safe-area-inset-top) + 156px);
+  z-index:123;
+  pointer-events:none;
+}
+.badgeFlash{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 12px;
+  border-radius:16px;
+  background:rgba(255,252,236,.98);
+  border:1px solid #efd88d;
+  box-shadow:0 12px 26px rgba(161,124,31,.16);
+  color:#8d6b1e;
+  font-size:13px;
+  font-weight:900;
+  line-height:1.15;
+  animation:badgeFlashOut .95s cubic-bezier(.18,.93,.23,1.08) forwards;
+}
+.badgeFlash .badgeFlashPct{
+  min-width:42px;height:42px;border-radius:50%;
+  display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 35%, #fff7dc 0 20%, #efd176 55%, #d7a944 100%);
+  color:#7b5e18;
+  font-size:13px;
+  font-weight:1000;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+.badgeFlash .badgeFlashText{
+  display:flex;flex-direction:column;gap:2px;
+}
+.badgeFlash .badgeFlashText strong{
+  font-size:12px;letter-spacing:.06em;
+}
+.badgeFlash .badgeFlashText span{
+  font-size:12px;
+}
+@keyframes badgeFlashOut{
+  0%{opacity:0;transform:translateX(16px) scale(.7)}
+  18%{opacity:1;transform:translateX(0) scale(1.05)}
+  70%{opacity:1;transform:translateX(0) scale(1)}
+  100%{opacity:0;transform:translateX(-8px) scale(.96)}
+}
+@media(max-width:420px){
+  .hero{min-height:186px !important;padding-bottom:56px !important}
+  .versionTag{top:14px !important;right:14px !important}
+  .heroActionsV14{right:14px;bottom:14px}
+  .resetTodayBtn{width:36px;min-width:36px !important;min-height:36px !important}
+  .streak{max-width:calc(100% - 64px);font-size:12px !important}
+  .badgeFlashDock{right:6px;top:calc(env(safe-area-inset-top) + 148px)}
+}
+
 </style>
 </head>
 <body>
 <div class="confetti" id="confetti"></div>
 <div class="fxLayer" id="fxLayer"></div>
 <div class="comboDock" id="comboDock"></div>
+<div class="badgeFlashDock" id="badgeFlashDock"></div>
 
 <main>
  <section class="hero" id="hero">
-<div class="versionTag">V14</div>
+<div class="versionTag">V15</div>
   <div class="kicker">DAYCARE QUEST</div>
   <h1>寶寶托嬰準備任務</h1>
   <div class="date" id="dateText"></div>
@@ -1063,7 +1167,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   <div class="milestone" id="milestone"><span>🌱</span><span>準備開始，今天也要順順利利！</span></div>
 <div class="heroActionsV14">
   <button type="button" class="resetTodayBtn" id="resetTodayBtn" aria-label="重置今日勾選">
-    <span class="resetIcon">↻</span><span>重置今日</span>
+    <span class="resetIcon">↻</span>
   </button>
 </div>
 
@@ -1205,7 +1309,9 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
        miniFill=document.getElementById("miniFill"), miniMessage=document.getElementById("miniMessage"),
        miniIcon=document.getElementById("miniIcon"), miniTitle=document.getElementById("miniTitle"),
        badgeToast=document.getElementById("badgeToast"), badgeNodes=[...document.querySelectorAll(".milestoneBadge")],
-       fxLayer=document.getElementById("fxLayer"), comboDock=document.getElementById("comboDock");
+       fxLayer=document.getElementById("fxLayer"), comboDock=document.getElementById("comboDock"),
+       badgeFlashDock=document.getElementById("badgeFlashDock"),
+       streakText=document.getElementById("streakText");
 
  function save(){
   try{const o={}; boxes.forEach(b=>o[b.dataset.id]=b.checked); localStorage.setItem(key, JSON.stringify(o));}catch(e){}
@@ -1224,6 +1330,23 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   if(p>=50) return "已解鎖 50% 徽章：進度過半";
   if(p>=25) return "已解鎖 25% 徽章：熱身啟動";
   return "尚未解鎖徽章，先完成第一項吧！";
+ }
+ let seenBadgeThreshold = 0;
+ function badgeTierText(t){
+  if(t===100) return "任務完成";
+  if(t===75) return "衝刺階段";
+  if(t===50) return "進度過半";
+  if(t===25) return "熱身啟動";
+  return "";
+ }
+ function showBadgeFlash(t){
+  if(!t || !badgeFlashDock) return;
+  const n=document.createElement("div");
+  n.className="badgeFlash";
+  n.innerHTML='<span class="badgeFlashPct">'+t+'%</span><span class="badgeFlashText"><strong>徽章解鎖</strong><span>'+badgeTierText(t)+'</span></span>';
+  badgeFlashDock.innerHTML="";
+  badgeFlashDock.appendChild(n);
+  setTimeout(()=>n.remove(),980);
  }
  function burst(){
   const colors=["#ef9e89","#f3c17d","#9bcab3","#d6a7cf","#86b9d8","#f1da73"];
@@ -1295,14 +1418,13 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   const total=boxes.length,p=Math.round(done/total*100),m=message(p);
 
   fill.style.width=p+"%"; pct.textContent=p+"%"; count.textContent=`${done} / ${total} 已完成`;
-  milestone.innerHTML=`<span>${m[0]}</span><span>${m[1]}</span>`;
-  milestone.classList.remove("pop"); void milestone.offsetWidth; milestone.classList.add("pop");
+
+  if(streakText) streakText.textContent = m[1];
 
   miniPct.textContent=p+"%";
   miniFill.style.width=p+"%";
-  miniMessage.textContent=m[1];
   miniQuest.classList.toggle("complete", done===total);
-  miniIcon.textContent=done===total ? "🏆" : "🐰";
+  miniIcon.textContent=done===total ? "🏆" : "🌱";
   miniTitle.textContent=done===total ? "今日任務完成！" : "寶寶托嬰準備任務";
 
   badgeNodes.forEach(node=>{
@@ -1310,6 +1432,16 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
     node.classList.toggle("unlocked", p >= threshold);
   });
   badgeToast.textContent = badgeMessage(p);
+
+  let currentBadgeThreshold = 0;
+  [25,50,75,100].forEach(t=>{ if(p >= t) currentBadgeThreshold = t; });
+  if(currentBadgeThreshold > seenBadgeThreshold){
+    showBadgeFlash(currentBadgeThreshold);
+    seenBadgeThreshold = currentBadgeThreshold;
+  }
+  if(currentBadgeThreshold < seenBadgeThreshold){
+    seenBadgeThreshold = currentBadgeThreshold;
+  }
 
   achievement.classList.toggle("show", done===total);
   if(done===total && !celebrated){celebrated=true; burst(); if(navigator.vibrate)navigator.vibrate([40,40,70])}
@@ -1353,10 +1485,17 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
    navigator.serviceWorker.getRegistrations()
      .then(regs=>Promise.all(regs.map(r=>r.unregister())))
-     .then(()=>navigator.serviceWorker.register("./sw.js?v=14"))
+     .then(()=>navigator.serviceWorker.register("./sw.js?v=15"))
      .catch(()=>{});
  }
 
+ function syncStickyVisibility(){
+   const threshold = hero ? Math.max(140, hero.offsetHeight - 28) : 180;
+   miniQuest.classList.toggle("is-hidden", window.scrollY < threshold);
+ }
+ window.addEventListener("scroll", syncStickyVisibility, {passive:true});
+ window.addEventListener("resize", syncStickyVisibility);
+ syncStickyVisibility();
  update();
 })();
 
@@ -1400,10 +1539,10 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
 
       if(typeof update === "function") update();
 
-      resetBtn.innerHTML='<span class="resetIcon">✓</span><span>已重置</span>';
+      resetBtn.innerHTML='<span class="resetIcon">✓</span>';
       setTimeout(()=>{
-        resetBtn.innerHTML='<span class="resetIcon">↻</span><span>重置今日</span>';
-      },900);
+        resetBtn.innerHTML='<span class="resetIcon">↻</span>';
+      },850);
     });
   }
 })();
