@@ -13,7 +13,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務 V18</title>
+<title>寶寶托嬰準備任務 V20</title>
 <style>
 :root{
  --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
@@ -1474,6 +1474,171 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   }
 }
 
+
+/* ===== V19：修正主卡可愛插畫位置 ===== */
+/* 關鍵修正：不要把 heroControls 整塊藏掉 */
+.heroControls{
+  display:block !important;
+}
+
+/* 上方主卡重新保留給右側插畫 */
+.hero{
+  min-height:214px !important;
+  padding-right:222px !important;
+  overflow:hidden !important;
+}
+.progressWrap{
+  margin-top:14px !important;
+  max-width:calc(100% - 146px) !important;
+}
+.heroActionsV14{
+  position:absolute !important;
+  right:16px !important;
+  bottom:14px !important;
+  z-index:20 !important;
+}
+
+/* 右上主視覺插畫要真的出現 */
+.heroArt,
+.heroArtV17{
+  display:block !important;
+  opacity:1 !important;
+  visibility:visible !important;
+}
+.heroArtV17{
+  position:absolute !important;
+  right:16px !important;
+  top:36px !important;
+  width:188px !important;
+  height:154px !important;
+  transform:none !important;
+  pointer-events:none;
+  z-index:7 !important;
+}
+
+/* 下方徽章區旁邊那組錯位小插畫拿掉 */
+.badgeWallArt{
+  display:none !important;
+}
+
+/* 徽章標題不用預留給插畫 */
+.badgeTitle{
+  padding-right:0 !important;
+}
+
+/* 避免 milestone 佔空間 */
+.milestone{
+  display:none !important;
+}
+
+/* 手機版尺寸調整 */
+@media(max-width:560px){
+  .hero{
+    padding-right:168px !important;
+    min-height:206px !important;
+  }
+  .progressWrap{
+    max-width:calc(100% - 112px) !important;
+  }
+  .heroArtV17{
+    right:8px !important;
+    top:44px !important;
+    width:144px !important;
+    height:132px !important;
+    transform:scale(.92) !important;
+    transform-origin:top right !important;
+  }
+}
+@media(max-width:420px){
+  .hero{
+    padding-right:146px !important;
+    min-height:198px !important;
+  }
+  .progressWrap{
+    max-width:calc(100% - 100px) !important;
+    margin-top:12px !important;
+  }
+  .heroArtV17{
+    right:4px !important;
+    top:48px !important;
+    width:132px !important;
+    height:120px !important;
+    transform:scale(.88) !important;
+    transform-origin:top right !important;
+  }
+  .heroMainSticker{
+    width:76px !important;
+    height:76px !important;
+    right:42px !important;
+    top:18px !important;
+  }
+  .heroMainFace{
+    font-size:40px !important;
+  }
+  .o1{width:40px !important;height:40px !important;right:118px !important;top:72px !important;font-size:21px !important}
+  .o2{width:42px !important;height:42px !important;right:4px !important;top:74px !important;font-size:22px !important}
+  .o3{width:38px !important;height:38px !important;right:48px !important;top:102px !important;font-size:19px !important}
+  .o4{width:30px !important;height:30px !important;right:122px !important;top:28px !important;font-size:15px !important}
+  .o5{width:28px !important;height:28px !important;right:10px !important;top:28px !important;font-size:14px !important}
+}
+
+
+/* ===== V20：卡片間距緊湊、HUD 不再佔透明空間 ===== */
+.hero{
+  margin-bottom:12px !important;
+}
+
+/* HUD 改成浮在畫面上，不參與文件排版 */
+.stickyHud{
+  position:fixed !important;
+  left:50% !important;
+  top:calc(env(safe-area-inset-top) + 8px) !important;
+  width:min(calc(100% - 20px),696px) !important;
+  margin:0 !important;
+  z-index:90 !important;
+  transform:translate(-50%,0);
+  box-sizing:border-box;
+}
+
+/* 在頁首時完全隱藏，但不留任何高度 */
+.stickyHud.is-hidden{
+  opacity:0 !important;
+  pointer-events:none !important;
+  transform:translate(-50%,-14px) scale(.98) !important;
+  visibility:hidden !important;
+}
+
+/* 往下滑才浮出 */
+.stickyHud:not(.is-hidden){
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+  transform:translate(-50%,0) scale(1) !important;
+}
+
+/* 下一張卡直接接上，不留大洞 */
+.badgeWall{
+  margin-top:0 !important;
+  margin-bottom:12px !important;
+}
+
+.topline{
+  margin-top:10px !important;
+}
+
+@media(max-width:420px){
+  .hero{
+    margin-bottom:10px !important;
+  }
+  .stickyHud{
+    top:calc(env(safe-area-inset-top) + 6px) !important;
+    width:calc(100% - 16px) !important;
+  }
+  .badgeWall{
+    margin-bottom:10px !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1484,7 +1649,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
 
 <main>
  <section class="hero" id="hero">
-<div class="versionTag">V18</div>
+<div class="versionTag">V20</div>
   <div class="kicker">DAYCARE QUEST</div>
   <h1>寶寶托嬰準備任務</h1>
   <div class="date" id="dateText"></div>
@@ -1830,7 +1995,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
    navigator.serviceWorker.getRegistrations()
      .then(regs=>Promise.all(regs.map(r=>r.unregister())))
-     .then(()=>navigator.serviceWorker.register("./sw.js?v=18"))
+     .then(()=>navigator.serviceWorker.register("./sw.js?v=20"))
      .catch(()=>{});
  }
 
