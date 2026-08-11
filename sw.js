@@ -1,4 +1,4 @@
-const CACHE = "daycare-pwa-v15-network-first";
+const CACHE = "daycare-pwa-v16-network-first";
 const STATIC_ASSETS = [
   "./manifest.webmanifest",
   "./icon-192.png",

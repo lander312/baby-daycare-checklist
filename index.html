@@ -13,7 +13,7 @@
 <meta name="format-detection" content="telephone=no">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<title>寶寶托嬰準備任務 V15</title>
+<title>寶寶托嬰準備任務 V16</title>
 <style>
 :root{
  --ink:#3f3735; --muted:#8f807a; --line:#eedee3;
@@ -1140,6 +1140,154 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   .badgeFlashDock{right:6px;top:calc(env(safe-area-inset-top) + 148px)}
 }
 
+
+/* ===== V16：可愛插畫回歸＋增加裝飾 ===== */
+.hero{
+  padding-right:144px !important;
+  overflow:hidden !important;
+}
+.versionTag{
+  top:14px !important;
+  right:14px !important;
+  z-index:12 !important;
+}
+.heroArt{
+  right:16px !important;
+  top:30px !important;
+  width:126px !important;
+  height:158px !important;
+  opacity:1 !important;
+  transform:scale(1.02);
+}
+.artBlob{filter:blur(3px)}
+.artBlob1{
+  width:102px !important;
+  height:102px !important;
+  right:4px !important;
+  top:8px !important;
+  background:radial-gradient(circle,#ffe7d8 0 38%, #fff4ec 62%, transparent 79%) !important;
+}
+.artBlob2{
+  width:92px !important;
+  height:92px !important;
+  right:14px !important;
+  bottom:6px !important;
+  background:radial-gradient(circle,#dff3eb 0 40%, #f0faf5 65%, transparent 82%) !important;
+}
+.artBadge{
+  border-radius:19px !important;
+  background:rgba(255,255,255,.92) !important;
+  border:1px solid rgba(238,225,217,.96) !important;
+  box-shadow:0 12px 26px rgba(88,62,48,.10) !important;
+  animation:artFloat 3.2s ease-in-out infinite alternate;
+}
+.artMain{
+  width:56px !important;height:56px !important;
+  right:34px !important;top:10px !important;
+  font-size:30px !important;
+}
+.artA{
+  width:34px !important;height:34px !important;
+  right:78px !important;top:66px !important;
+  font-size:18px !important;
+}
+.artB{
+  width:34px !important;height:34px !important;
+  right:0 !important;top:78px !important;
+  font-size:18px !important;
+}
+.artC{
+  width:33px !important;height:33px !important;
+  right:42px !important;top:100px !important;
+  font-size:17px !important;
+}
+.artD{
+  width:28px !important;height:28px !important;
+  right:88px !important;top:20px !important;
+  font-size:15px !important;
+  animation-delay:.7s;
+}
+.artE{
+  width:28px !important;height:28px !important;
+  right:8px !important;top:28px !important;
+  font-size:15px !important;
+  animation-delay:1.1s;
+}
+.artF{
+  width:26px !important;height:26px !important;
+  right:72px !important;top:110px !important;
+  font-size:14px !important;
+  animation-delay:1.5s;
+}
+.artSpark.s3{
+  right:18px;
+  top:116px;
+  animation-delay:1.1s;
+}
+@keyframes artFloat{
+  from{transform:translateY(0) rotate(var(--rot,0deg))}
+  to{transform:translateY(-4px) rotate(var(--rot,0deg))}
+}
+.artMain{--rot:-6deg}.artA{--rot:-10deg}.artB{--rot:10deg}.artC{--rot:8deg}.artD{--rot:-8deg}.artE{--rot:6deg}.artF{--rot:-4deg}
+
+.badgeWall{
+  position:relative;
+  overflow:hidden;
+}
+.badgeWallArt{
+  position:absolute;
+  right:14px;
+  top:12px;
+  width:84px;
+  height:58px;
+  pointer-events:none;
+  opacity:.95;
+}
+.badgeWallArt .bwa{
+  position:absolute;
+  display:grid;
+  place-items:center;
+  width:28px;height:28px;
+  border-radius:12px;
+  background:rgba(255,255,255,.88);
+  border:1px solid rgba(238,225,217,.9);
+  box-shadow:0 8px 18px rgba(88,62,48,.08);
+  font-size:14px;
+}
+.badgeWallArt .a1{right:26px;top:0}
+.badgeWallArt .a2{left:0;top:18px}
+.badgeWallArt .a3{right:0;top:24px}
+
+.badgeTitle{
+  padding-right:88px !important;
+}
+
+@media(max-width:420px){
+  .hero{
+    padding-right:126px !important;
+  }
+  .heroArt{
+    right:10px !important;
+    top:32px !important;
+    width:112px !important;
+    height:148px !important;
+  }
+  .artMain{width:52px !important;height:52px !important;right:28px !important;top:12px !important;font-size:27px !important}
+  .artA{right:68px !important;top:64px !important}
+  .artB{right:2px !important;top:74px !important}
+  .artC{right:38px !important;top:97px !important}
+  .artD{right:76px !important;top:22px !important}
+  .artE{right:8px !important;top:30px !important}
+  .artF{right:62px !important;top:108px !important}
+  .badgeWallArt{
+    right:10px;
+    top:10px;
+    transform:scale(.92);
+    transform-origin:top right;
+  }
+  .badgeTitle{padding-right:78px !important}
+}
+
 </style>
 </head>
 <body>
@@ -1150,7 +1298,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
 
 <main>
  <section class="hero" id="hero">
-<div class="versionTag">V15</div>
+<div class="versionTag">V16</div>
   <div class="kicker">DAYCARE QUEST</div>
   <h1>寶寶托嬰準備任務</h1>
   <div class="date" id="dateText"></div>
@@ -1179,8 +1327,12 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
    <div class="artBadge artA">🍼</div>
    <div class="artBadge artB">🧸</div>
    <div class="artBadge artC">🧼</div>
+   <div class="artBadge artD">🎀</div>
+   <div class="artBadge artE">✨</div>
+   <div class="artBadge artF">🫧</div>
    <div class="artSpark s1">✦</div>
    <div class="artSpark s2">✦</div>
+   <div class="artSpark s3">✦</div>
   </div>
  </section>
 
@@ -1196,7 +1348,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
   </div>
  </div>
 
- <section class="badgeWall" id="badgeWall">
+ <section class="badgeWall" id="badgeWall"><div class="badgeWallArt" aria-hidden="true"><span class="bwa a1">🐰</span><span class="bwa a2">🍼</span><span class="bwa a3">🧸</span></div>
    <div class="badgeTitle">完成徽章進度</div>
    <div class="badgeGrid">
      <div class="milestoneBadge" data-threshold="25">
@@ -1485,7 +1637,7 @@ body.theme-default .itemIcon{background:linear-gradient(145deg,#fff7f1,#ffe9db)}
  if("serviceWorker" in navigator && location.protocol.startsWith("http")){
    navigator.serviceWorker.getRegistrations()
      .then(regs=>Promise.all(regs.map(r=>r.unregister())))
-     .then(()=>navigator.serviceWorker.register("./sw.js?v=15"))
+     .then(()=>navigator.serviceWorker.register("./sw.js?v=16"))
      .catch(()=>{});
  }
 
